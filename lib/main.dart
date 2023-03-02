@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/features/Check%20Out/screen/check_out_screen.dart';
@@ -18,26 +19,57 @@ import 'package:support__81/provider/user_provider.dart';
 import 'package:support__81/router.dart';
 import 'package:flutter/material.dart';
 
+import 'features/Bookmark/services/bookmark_services.dart';
+import 'features/Cart/services/cart_services.dart';
+
 void main() {
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (context) => UserProvider(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => BookmarkedProvider(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => CartProvider(),
-      ),
-    ], child: const MyApp()),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BookmarkedProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+        ),
+      ],
+      child: MyApp(),
+      // DevicePreview(enabled: true, builder: (context) => MyApp()),
+    ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  CartServices _cartServices = CartServices();
+  BookmarkServices _bookmarkServices = BookmarkServices();
+
+  @override
+  void initState() {
+    super.initState();
+    getCart();
+    fetchBookmarkProducts();
+  }
+
+  void getCart() {
+    _cartServices.getCart(context);
+    setState(() {});
+  }
+
+  void fetchBookmarkProducts() {
+    _bookmarkServices.getBookmarkedProducts(context: context);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,7 +78,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
-      home: const SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      home: const FetchLocationScreen(),
       onGenerateRoute: (settings) => generateRoute(settings),
       // Routes
       routes: {

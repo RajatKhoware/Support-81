@@ -58,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   and information.''',
                       fontSize: 18.sp,
                       color: primaryWhite,
+                      maxLine: 4,
                     ),
                     SizedBox(height: 20.h),
                     Row(

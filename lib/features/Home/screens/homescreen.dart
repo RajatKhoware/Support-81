@@ -1,15 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:badges/badges.dart';
+import 'package:provider/provider.dart';
 import 'package:support__81/common/app_list.dart';
 import 'package:support__81/constant/app_theme.dart';
-import 'package:support__81/provider/user_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:support__81/features/Home/widgets/searchfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:support__81/provider/cart_provider.dart';
 import '../../../common/customtext.dart';
 import '../../Cart/services/cart_services.dart';
-import '../widgets/floating_action_button.dart';
 import '../widgets/my_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,16 +21,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  CartServices _cartServices = CartServices();
   //Tab current index
   int currentIndex = 0;
 
-  // Getting cart at the starting of app
-  CartServices _cartServices = CartServices();
-  @override
-  void initState() {
-    super.initState();
-    getCart();
-  }
   void getCart() {
     _cartServices.getCart(context);
     setState(() {});
@@ -38,43 +32,101 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final user = Provider.of<UserProvider>(context, listen: false).user;
+    final cart = Provider.of<CartProvider>(context, listen: true).cart;
+    late final cartProductLeng;
+    // Checking if cart is null or not
+    if (cart.data == null) {
+      setState(() {
+        cartProductLeng = 0;
+      });
+    } else {
+      setState(() {
+        cartProductLeng = cart.cartProductCount;
+      });
+    }
+    
     return ScreenUtilInit(
-        designSize: const Size(393, 781),
-        builder: (context, child) {
-          return Scaffold(
-            // Drawer Icon + Serach Field
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              iconTheme: IconThemeData(
-                color: AppTheme.greyColor909090,
-              ),
-              title: Container(
-                width: 320.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  color: Colors.white,
-                ),
-                child: const SerachField(),
-              ),
+      designSize: const Size(393, 781),
+      builder: (context, child) {
+        return Scaffold(
+          // Drawer Icon + Serach Field
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            iconTheme: IconThemeData(
+              color: AppTheme.greyColor909090,
             ),
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Column(children: [
-                InkWell(onTap: () {}, child: SizedBox(height: 10.h)),
-                //Tab bar
-                tabBar(),
-                //TabBar view
-                Expanded(
-                  child: AppLists.tabScreens[currentIndex],
-                ),
-              ]),
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: Icon(
+                    Icons.menu,
+                    size: 28.sp,
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  tooltip:
+                      MaterialLocalizations.of(context).openAppDrawerTooltip,
+                );
+              },
             ),
-            floatingActionButton: const FloadtingActionButton(),
-            drawer: const MyDrawer(),
-          );
-        });
+            leadingWidth: 30.w,
+            title: Container(
+              width: 320.w,
+              height: 40.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.r),
+                color: Colors.white,
+              ),
+              child: const SerachField(),
+            ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(top: 14.h),
+                child: Badge(
+                  position: BadgePosition.topEnd(end: 0.0),
+                  badgeContent: CustomTextPoppines(
+                    text: cartProductLeng.toString(),
+                    fontSize: 10.sp,
+                  ),
+                  badgeStyle: BadgeStyle(
+                    elevation: 0.0,
+                    badgeColor: Colors.red,
+                    padding: EdgeInsets.all(4.0),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      getCart();
+                      Navigator.pushNamed(context, "/my-cart");
+                    },
+                    child: Icon(
+                      CupertinoIcons.bag_fill,
+                      size: 28.sp,
+                      color: AppTheme.whiteColorFFFFFF,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 15.w),
+            ],
+          ),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Column(children: [
+              InkWell(onTap: () {}, child: SizedBox(height: 10.h)),
+              //Tab bar
+              tabBar(),
+              //TabBar view
+              Expanded(
+                child: AppLists.tabScreens[currentIndex],
+              ),
+            ]),
+          ),
+          // floatingActionButton: const FloadtingActionButton(),
+          drawer: const MyDrawer(),
+        );
+      },
+    );
   }
 
 // TabBar Widget

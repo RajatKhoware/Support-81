@@ -117,13 +117,6 @@ class MyDrawer extends StatelessWidget {
                   },
                 ),
                 DrawerListTile(
-                  icon: Icons.notifications,
-                  text: "Bookmarks",
-                  onTap: () {
-                    Navigator.pushNamed(context, BookMarkScreen.routeName);
-                  },
-                ),
-                DrawerListTile(
                   icon: CupertinoIcons.cart,
                   text: "My Cart",
                   onTap: () {

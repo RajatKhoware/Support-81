@@ -9,6 +9,7 @@ class CustomText extends StatelessWidget {
   final Color? color;
   final FontWeight? fontWeight;
   final double? height;
+  final int? maxLine;
   const CustomText({
     Key? key,
     required this.text,
@@ -16,6 +17,7 @@ class CustomText extends StatelessWidget {
     this.color = Colors.white,
     this.fontWeight = FontWeight.normal,
     this.height = 1.2,
+    this.maxLine = 2,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,8 @@ class CustomText extends StatelessWidget {
         fontFamily: "Montserrat",
         fontWeight: fontWeight,
       ),
+      maxLines: maxLine,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
@@ -47,7 +51,7 @@ class CustomTextPoppines extends StatelessWidget {
     this.color = Colors.white,
     this.fontWeight = FontWeight.normal,
     this.height = 1.4,
-    this.maxLines = 100,
+    this.maxLines = 2,
   }) : super(key: key);
 
   @override

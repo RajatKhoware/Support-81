@@ -81,6 +81,34 @@ class CartServices {
       var data = jsonDecode(response.body);
       if (response.statusCode == 200 && data['response_code'] == 200) {
         cartProvider.setCart(CartModel.fromJson(data));
+      } else if (response.statusCode == 404 && data['response_code'] == 404) {
+        cartProvider.setCart(CartModel());
+      } else {
+        showSnakeBar(context, data['response_message']);
+      }
+    } catch (e) {
+      showSnakeBar(context, e.toString());
+      print(e.toString());
+    }
+  }
+
+  Future<void> removeFromCart({
+    required BuildContext context,
+    required String cartId,
+  }) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String authToken = prefs.getString('x-auth-token') ?? '';
+      final response = await http.delete(
+        Uri.parse('$url/removeProductFromCart/$cartId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $authToken'
+        },
+      );
+      var data = jsonDecode(response.body);
+      if (response.statusCode == 200 && data['response_code'] == 200) {
+        showSnakeBar(context, data['response_message']);
       } else {
         showSnakeBar(context, data['response_message']);
       }

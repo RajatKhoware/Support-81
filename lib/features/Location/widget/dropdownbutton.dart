@@ -53,7 +53,7 @@ class _DropdownForStoreState extends State<DropdownForStore> {
           color: Colors.white,
         ),
         borderRadius: BorderRadius.circular(20.r),
-        dropdownColor: AppTheme.greyColor1F1F1F,
+        dropdownColor: AppTheme.redPrimaryColor,
         iconSize: 24.sp,
         style: const TextStyle(
           color: Colors.white,
@@ -65,7 +65,13 @@ class _DropdownForStoreState extends State<DropdownForStore> {
           });
         },
         //List of items present in list
-        items: _shopNames?.map<DropdownMenuItem<String>>(
+
+        items: <String>[
+          'Costabianca',
+          'Costa Belgume',
+          'Ghent Belgium',
+          'Andorra'
+        ].map<DropdownMenuItem<String>>(
           (String value) {
             return DropdownMenuItem<String>(
               value: value,

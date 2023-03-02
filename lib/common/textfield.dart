@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/constant/colors.dart';
@@ -73,18 +74,18 @@ class _CustomTextFieldForSignInState extends State<CustomTextFieldForSignIn> {
                 ?
                 //Email checker container
                 Container(
-                    width: 25,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      color: Colors.white,
-                    ),
-                    child: Icon(
-                      Icons.check,
-                      size: 12.sp,
-                      color: AppTheme.greyColor2B2B2B,
-                    ),
-                  )
+                    // width: 25,
+                    // height: 25,
+                    // decoration: BoxDecoration(
+                    //   borderRadius: BorderRadius.circular(8.r),
+                    //   color: Colors.white,
+                    // ),
+                    // child: Icon(
+                    //   Icons.check,
+                    //   size: 12.sp,
+                    //   color: AppTheme.greyColor2B2B2B,
+                    // ),
+                    )
                 :
                 // Show password button
                 InkWell(
@@ -94,18 +95,16 @@ class _CustomTextFieldForSignInState extends State<CustomTextFieldForSignIn> {
                       });
                     },
                     child: Container(
-                      width: 45.w,
-                      height: 18.h,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.35),
-                      ),
-                      child: Center(
-                        child: CustomText(
-                          text: _showPasswod ? "SHOW" : "HIDE",
-                          fontSize: 10.sp,
-                          color: primaryWhite,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      width: 33.w,
+                      height: 28.h,
+                      child: Icon(
+                        _showPasswod
+                            ? CupertinoIcons.eye_fill
+                            : CupertinoIcons.eye_slash_fill,
+                        color: _showPasswod
+                            ? Colors.white
+                            : AppTheme.greyColor1F1F1F,
+                        size: 22.sp,
                       ),
                     ),
                   ),

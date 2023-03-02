@@ -50,6 +50,7 @@ class _ExpandedDescriptionState extends State<ExpandableTextWidget> {
               color: AppTheme.greyColor909090,
               height: 1.3.h,
               fontSize: 16.sp,
+              maxLines: 10,
             )
           : Column(
               children: [
@@ -60,6 +61,7 @@ class _ExpandedDescriptionState extends State<ExpandableTextWidget> {
                   color: AppTheme.greyColor909090,
                   height: 2.0.h,
                   fontSize: 14.sp,
+                  maxLines: 100,
                 ),
                 SizedBox(height: 5.h),
                 InkWell(

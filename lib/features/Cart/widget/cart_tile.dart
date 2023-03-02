@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/common/customtext.dart';
 import 'package:support__81/constant/app_theme.dart';
@@ -28,6 +29,19 @@ class _CartProductTileState extends State<CartProductTile> {
       context: context,
       cartId: cartId,
     );
+  }
+
+  Future<void> removeFromCart(String cartId) async {
+    await _cartServices.removeFromCart(
+      context: context,
+      cartId: cartId,
+    );
+    setState(() {});
+  }
+
+  void getCart() {
+    _cartServices.getCart(context);
+    setState(() {});
   }
 
   @override
@@ -151,7 +165,11 @@ class _CartProductTileState extends State<CartProductTile> {
               Column(
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      removeFromCart(cartProduct.id.toString());
+                      getCart();
+                      setState(() {});
+                    },
                     child: Icon(
                       CupertinoIcons.xmark_circle,
                       color: Theme.of(context).primaryColor,
