@@ -66,6 +66,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     setState(() {});
   }
 
+  void fetchBookmarkProducts() {
+    _bookmarkServices.getBookmarkedProducts(context: context);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: true).cart;
@@ -218,18 +223,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                 : Theme.of(context).buttonColor,
                           ),
                           child: IconButton(
-                            onPressed: () => isProductBookmarked
-                                ? {
-                                    showSnakeBar(context,
-                                        data.responseMessage.toString()),
-                                    Navigator.pushNamed(
-                                        context, BookMarkScreen.routeName),
-                                  }
-                                : {
-                                    addBookmark(),
-                                    showSnakeBar(context,
-                                        data.responseMessage.toString())
-                                  },
+                            onPressed: () {
+                              isProductBookmarked
+                                  ? {
+                                      showSnakeBar(
+                                        context,
+                                        data.responseMessage.toString(),
+                                      ),
+                                      Navigator.pushNamed(
+                                        context,
+                                        BookMarkScreen.routeName,
+                                      ),
+                                    }
+                                  : {
+                                      addBookmark(),
+                                      showSnakeBar(
+                                        context,
+                                        data.responseMessage.toString(),
+                                      ),
+                                    };
+                              fetchBookmarkProducts();
+                            },
                             icon: Icon(
                               CupertinoIcons.bookmark_solid,
                               color: isProductBookmarked

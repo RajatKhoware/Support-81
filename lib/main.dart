@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: const FetchLocationScreen(),
+      home: const SplashScreen(),
       onGenerateRoute: (settings) => generateRoute(settings),
       // Routes
       routes: {
