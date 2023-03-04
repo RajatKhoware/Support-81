@@ -191,7 +191,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         ),
                         SizedBox(height: 10.h),
                         ExpandableTextWidget(
-                          text: product.description.toString(),
+                          text: product.description.toString()
                         ),
                       ],
                     ),
