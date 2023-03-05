@@ -220,7 +220,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             shape: BoxShape.circle,
                             color: isProductBookmarked
                                 ? AppTheme.whiteColorFFFFFF
-                                : Theme.of(context).buttonColor,
+                                : Theme.of(context).buttonColor
                           ),
                           child: IconButton(
                             onPressed: () {
