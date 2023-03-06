@@ -32,6 +32,7 @@ class ProductsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -89,7 +90,9 @@ class ProductsTile extends StatelessWidget {
                     ),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, "/my-cart");
+                        // Navigator.pushNamed(context, "/my-cart");
+                        print(MediaQuery.of(context).size.width);
+                        print(MediaQuery.of(context).size.height);
                       },
                       child: Icon(
                         CupertinoIcons.bag_fill,
@@ -109,7 +112,11 @@ class ProductsTile extends StatelessWidget {
           child: CustomTextPoppines(
             text: productName,
             maxLines: 2,
-            fontSize: 13.sp,
+            fontSize: screenHeight > 820
+                ? 11.sp
+                : screenHeight > 790
+                    ? 12.sp
+                    : 13.sp,
             color: Theme.of(context).primaryColor,
           ),
         ),
@@ -118,7 +125,11 @@ class ProductsTile extends StatelessWidget {
           padding: EdgeInsets.only(right: 10.w),
           child: CustomTextPoppines(
             text: "\$$productPrice",
-            fontSize: 16.sp,
+            fontSize: screenHeight > 820
+                ? 14.sp
+                : screenHeight > 790
+                    ? 15.sp
+                    : 16.sp,
             color: Theme.of(context).primaryColorLight,
             fontWeight: FontWeight.bold,
           ),

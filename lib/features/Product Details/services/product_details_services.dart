@@ -30,11 +30,9 @@ class ProductDetailsServices {
         return ProductDetailsModel.fromJson(data);
       }
     } catch (e) {
-      showSnakeBar(
-        context,
-        e.toString(),
-      );
-      throw Exception('Failed to load product details');
+      print(e.toString());
+      showSnakeBar(context, e.toString());
+      throw Exception(e.toString());
     }
   }
 }

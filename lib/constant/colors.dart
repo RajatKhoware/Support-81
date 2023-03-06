@@ -10,6 +10,7 @@ const textfieldBgColor = Color.fromARGB(90, 83, 95, 104);
 
 const String url = "http://quantumit.online/81support/api";
 
+
 class GloabalVariables {
   static const buttonRed = Color.fromARGB(250, 231, 16, 1);
   static const bgBlack = Color(0xFF171717);

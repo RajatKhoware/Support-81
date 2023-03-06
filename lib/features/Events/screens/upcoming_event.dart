@@ -9,6 +9,7 @@ class UpcomingEventScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return ScreenUtilInit(
         designSize: const Size(393, 781),
         builder: (context, child) {

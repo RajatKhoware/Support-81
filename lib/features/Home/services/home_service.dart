@@ -20,14 +20,16 @@ class HomeServices {
           'Authorization': 'Bearer $authToken'
         },
       );
-      var data = jsonDecode(response.body.toString());
+      var data = jsonDecode(response.body);
+      // print(data);
       if (response.statusCode == 200) {
         return ProductModel.fromJson(data);
       } else {
         return ProductModel.fromJson(data);
       }
     } catch (e) {
-      throw Exception("Null value get");
+      print(e.toString());
+      throw Exception(e.toString());
     }
   }
 }

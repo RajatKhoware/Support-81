@@ -28,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return ScreenUtilInit(
       designSize: const Size(393, 781),
       builder: (context, child) {
@@ -56,7 +57,11 @@ class _SplashScreenState extends State<SplashScreen> {
                       text:
                           '''Support 81 is an official merchandise\nstore for the Hells Angels Motorcycle\nClub, providing clothes, accessories
                   and information.''',
-                      fontSize: 18.sp,
+                      fontSize: screenHeight > 820
+                          ? 14.sp
+                          : screenHeight > 790
+                              ? 16.sp
+                              : 17.sp,
                       color: primaryWhite,
                       maxLine: 4,
                     ),

@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         cartProductLeng = cart.cartProductCount;
       });
     }
-    
+
     return ScreenUtilInit(
       designSize: const Size(393, 781),
       builder: (context, child) {
@@ -173,7 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: 7.h),
                           CustomTextPoppines(
                             text: AppLists.tabLables[index],
-                            fontSize: 12.sp,
+                            fontSize: MediaQuery.of(context).size.height > 820
+                                ? 10.sp
+                                : MediaQuery.of(context).size.height > 790
+                                    ? 11.sp
+                                    : 12.sp,
                             color: currentIndex == index
                                 ? AppTheme.redPrimaryColor
                                 : AppTheme.greyColor909090,

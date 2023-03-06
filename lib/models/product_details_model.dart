@@ -29,8 +29,8 @@ class Data {
   String? productName;
   String? price;
   String? description;
-  Null? availableQuantity;
-  Null? discount;
+  String? availableQuantity;
+  String? discount;
   String? createdAt;
   String? updatedAt;
   int? avgRating;

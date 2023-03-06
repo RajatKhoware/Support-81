@@ -53,12 +53,12 @@ class _MyAppState extends State<MyApp> {
   CartServices _cartServices = CartServices();
   BookmarkServices _bookmarkServices = BookmarkServices();
 
-  @override
-  void initState() {
-    super.initState();
-    getCart();
-    fetchBookmarkProducts();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getCart();
+  //   fetchBookmarkProducts();
+  // }
 
   void getCart() {
     _cartServices.getCart(context);

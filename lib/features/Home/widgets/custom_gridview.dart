@@ -24,7 +24,7 @@ class _CustomGridViewState extends State<CustomGridView> {
     return FutureBuilder(
       future: HomeServices().fetchProducts(
         pageNo: _currentPage,
-        shopNo: 2,
+        shopNo: 7,
       ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -39,9 +39,11 @@ class _CustomGridViewState extends State<CustomGridView> {
                   itemCount: productsInfo.data!.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: MediaQuery.of(context).size.width > 383
-                        ? 1 / 1.65
-                        : 1 / 1.40,
+                    childAspectRatio: MediaQuery.of(context).size.height > 820
+                        ? 1 / 1.80
+                        : MediaQuery.of(context).size.height < 790
+                            ? 1 / 1.65
+                            : 1 / 1.40,
                   ),
                   itemBuilder: (context, index) {
                     final product = productsInfo.data![index];
@@ -103,7 +105,7 @@ class _CustomGridViewState extends State<CustomGridView> {
             ],
           );
         } else if (snapshot.hasError) {
-          return Text(snapshot.error.toString());
+          return Center(child: Text(snapshot.error.toString()));
         } else {
           return Center(child: CircularProgressIndicator());
         }

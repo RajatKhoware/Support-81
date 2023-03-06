@@ -45,6 +45,7 @@ class NotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
       width: double.infinity,
       height: 110.h,
@@ -69,10 +70,10 @@ class NotificationCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomTextPoppines(
+                  AutosizePoppiness(
                     text:
                         "Your order #123456789 has been \nshipped successfully",
-                    fontSize: 14.sp,
+                    fontSize: screenHeight > 820 ? 12.sp : 14.sp,
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,
                   ),
@@ -83,14 +84,15 @@ class NotificationCard extends StatelessWidget {
                       CustomTextPoppines(
                         text:
                             "Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit. ",
-                        fontSize: 14.sp,
+                        fontSize: screenHeight > 820 ? 12.sp : 14.sp,
+                        maxLines: 2,
                         color: AppTheme.greyColor909090,
                         fontWeight: FontWeight.normal,
                       ),
                       SizedBox(width: 15.w),
                       CustomText(
                         text: isHot ? "Hot" : "New",
-                        fontSize: 16.sp,
+                        fontSize: screenHeight > 820 ? 14.sp : 16.sp,
                         color: isHot ? Colors.red : Colors.green,
                         fontWeight: FontWeight.normal,
                       ),

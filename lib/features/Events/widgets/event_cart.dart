@@ -8,6 +8,7 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
       child: SizedBox(
@@ -53,13 +54,13 @@ class EventCard extends StatelessWidget {
                 CustomText(
                   text: "January 6, 2023 - January 9, 2023",
                   color: Theme.of(context).primaryColor,
-                  fontSize: 14.sp,
+                  fontSize: screenHeight > 820 ? 12.sp : 14.sp,
                 ),
                 SizedBox(height: 10.h),
                 // Event Name
                 CustomText(
                   text: "Motorcycle rally 2023",
-                  fontSize: 20.sp,
+                  fontSize: screenHeight > 820 ? 18.sp : 20.sp,
                   color: Theme.of(context).primaryColor,
                 ),
                 // Event description
@@ -73,7 +74,8 @@ many events have been scheduled and many riders are
 planning to attend rallies all around the US. Events
 feature motorcycle giveaways, races, stunts, music
 festivals, and more...''',
-                  fontSize: 10.sp,
+                  maxLine: 100,
+                  fontSize: screenHeight > 820 ? 8.sp : 10.sp,
                   color: Theme.of(context).primaryColor,
                 ),
               ],

@@ -110,7 +110,7 @@ class Data {
   String? productName;
   String? price;
   String? description;
-  Null? availableQuantity;
+  String? availableQuantity;
   Null? discount;
   String? createdAt;
   String? updatedAt;

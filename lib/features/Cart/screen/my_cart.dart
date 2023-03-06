@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:support__81/common/app_list.dart';
 import 'package:support__81/common/button.dart';
+import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:support__81/common/customtext.dart';
@@ -48,7 +49,26 @@ class _MyCartState extends State<MyCart> {
                   if (cart.data == null)
                     Expanded(
                       child: Center(
-                        child: Text("Cart is empty!"),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 160.r,
+                              backgroundColor: AppTheme.blackColor242424,
+                              child: Image.asset(
+                                "assets/images/empty_basket.png",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            SizedBox(height: 40.h),
+                            CustomTextPoppines(
+                              text:
+                                  "Oops! Look like your cart is \n                   empty",
+                              fontSize: 16.sp,
+                              color: AppTheme.greyColor909090,
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   else
@@ -72,36 +92,40 @@ class _MyCartState extends State<MyCart> {
                         //Promo-code Field
                         SizedBox(height: 18.h),
                         //Cart Total
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomTextInter(
-                              text: "Total:",
-                              fontSize: 20.sp,
-                              color: Theme.of(context)
-                                  .primaryColorLight
-                                  .withOpacity(0.9),
-                              fontWeight: FontWeight.bold,
-                            ),
-                            CustomTextInter(
-                              text: "\$${sum.toString()}",
-                              fontSize: 20.sp,
-                              color: Theme.of(context).primaryColorLight,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ],
-                        ),
+                        if (cart.data != null)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomTextInter(
+                                text: "Total:",
+                                fontSize: 20.sp,
+                                color: Theme.of(context)
+                                    .primaryColorLight
+                                    .withOpacity(0.9),
+                                fontWeight: FontWeight.bold,
+                              ),
+                              CustomTextInter(
+                                text: "\$${sum.toString()}",
+                                fontSize: 20.sp,
+                                color: Theme.of(context).primaryColorLight,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
                         const SizedBox(height: 20),
                         //Check-out Button
                         CustomButton(
                           width: double.infinity,
                           height: 50.h,
                           color: GloabalVariables.buttonRed,
-                          text: "Check out",
+                          text:
+                              cart.data == null ? "Go Shopping!" : "Check out",
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           onTap: () {
-                            Navigator.pushNamed(context, "/check-out");
+                            cart.data == null
+                                ? Navigator.pushNamed(context, "/home")
+                                : Navigator.pushNamed(context, "/check-out");
                           },
                         ),
                       ],

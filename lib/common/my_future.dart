@@ -43,9 +43,9 @@ class _MyFutureBuilderState<T> extends State<MyFutureBuilder<T>> {
         if (snapshot.hasData) {
           return widget.builder(context, snapshot.data!);
         } else if (snapshot.hasError) {
-          return widget.errorBuilder(context, snapshot.error!);
+          return Center(child: widget.errorBuilder(context, snapshot.error!));
         } else {
-          return widget.loadingBuilder(context);
+          return Center(child: widget.loadingBuilder(context));
         }
       },
     );

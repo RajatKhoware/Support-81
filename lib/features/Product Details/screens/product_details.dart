@@ -191,8 +191,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         ),
                         SizedBox(height: 10.h),
                         ExpandableTextWidget(
-                          text: product.description.toString()
-                        ),
+                            text: product.description.toString()),
                       ],
                     ),
                   ))
@@ -217,11 +216,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           width: 56.w,
                           height: 56.h,
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: isProductBookmarked
-                                ? AppTheme.whiteColorFFFFFF
-                                : Theme.of(context).buttonColor
-                          ),
+                              shape: BoxShape.circle,
+                              color: isProductBookmarked
+                                  ? AppTheme.whiteColorFFFFFF
+                                  : Theme.of(context).buttonColor),
                           child: IconButton(
                             onPressed: () {
                               isProductBookmarked
