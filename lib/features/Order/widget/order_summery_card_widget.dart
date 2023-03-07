@@ -3,8 +3,8 @@ import '../../../common/customtext.dart';
 import '../../../constant/app_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class OrderSummeyCard extends StatelessWidget {
-  const OrderSummeyCard({
+class OrderSummeyCard_Widget extends StatelessWidget {
+  const OrderSummeyCard_Widget({
     Key? key,
   }) : super(key: key);
 

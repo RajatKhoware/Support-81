@@ -5,8 +5,10 @@ import 'package:support__81/common/app_list.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Home/widgets/searchfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:support__81/main.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import '../../../common/customtext.dart';
 import '../../Cart/services/cart_services.dart';
@@ -107,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SizedBox(width: 15.w),
+              15.hs,
             ],
           ),
           body: Padding(

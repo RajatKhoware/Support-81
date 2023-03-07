@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:support__81/constant/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/custom_appbar.dart';
-import '../widget/order_summery_card.dart';
+import '../widget/order_summery_card_widget.dart';
 import '../widget/payment_delivery_card.dart';
 import '../widget/shipping_card.dart';
 
@@ -42,7 +42,7 @@ class CheckOutScreen extends StatelessWidget {
                     containtText: "Fast (2-3days)",
                   ),
                   SizedBox(height: 20.h),
-                  const OrderSummeyCard(),
+                  const OrderSummeyCard_Widget(),
                   SizedBox(height: 28.h),
                   CustomButton(
                     width: double.infinity,

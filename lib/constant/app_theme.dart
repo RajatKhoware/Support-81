@@ -68,6 +68,7 @@ class AppTheme {
   static Color blackColor171717 = const Color(0xFF171717);
   static Color darkBrownColor = const Color(0xFF303030);
   static Color redPrimaryColor = Colors.red;
+  static Color darkRedColor = const Color(0xFFF32529);
   static Color redSecondaryText = const Color(0xFFEB5757);
   static Color greenText = const Color(0xFF27AE60);
 }

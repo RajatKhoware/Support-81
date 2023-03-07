@@ -2,7 +2,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/common/customtext.dart';
 import 'package:support__81/constant/app_theme.dart';
@@ -68,7 +67,7 @@ class _CartProductTileState extends State<CartProductTile> {
                     color: Colors.white,
                   ),
                   child: Image.network(
-                    cartProduct!.images![0],
+                  cartList.images![0],
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -83,7 +82,7 @@ class _CartProductTileState extends State<CartProductTile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomTextPoppines(
-                        text: cartProduct.productName.toString(),
+                        text: cartProduct!.productName.toString(),
                         fontSize: 14.sp,
                         color: AppTheme.greyColor909090,
                         maxLines: 1,

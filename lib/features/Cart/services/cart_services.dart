@@ -79,6 +79,7 @@ class CartServices {
         },
       );
       var data = jsonDecode(response.body);
+      // print(data);
       if (response.statusCode == 200 && data['response_code'] == 200) {
         cartProvider.setCart(CartModel.fromJson(data));
       } else if (response.statusCode == 404 && data['response_code'] == 404) {
