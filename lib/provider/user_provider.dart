@@ -1,6 +1,5 @@
-import 'package:support__81/models/get_bookmarked_product_model.dart';
-import 'package:support__81/models/user.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:support__81/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
   User _user = User(

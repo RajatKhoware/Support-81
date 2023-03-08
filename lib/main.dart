@@ -1,27 +1,23 @@
-import 'package:device_preview/device_preview.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/constant/app_theme.dart';
-import 'package:support__81/features/Order/screen/check_out_screen.dart';
-import 'package:support__81/features/Order/screen/my_order_screen.dart';
-import 'package:support__81/features/Order/screen/order_placed.dart';
+import 'package:support__81/features/Auth/screens/sign-in.dart';
+import 'package:support__81/features/Auth/screens/sign-up.dart';
+import 'package:support__81/features/Cart/screen/my_cart.dart';
 import 'package:support__81/features/Events/screens/upcoming_event.dart';
 import 'package:support__81/features/Home/screens/homescreen.dart';
 import 'package:support__81/features/Location/screen/fetch_location.dart';
-import 'package:support__81/features/Cart/screen/my_cart.dart';
 import 'package:support__81/features/Notificaion/screens/notification_screen.dart';
 import 'package:support__81/features/Offers%20&%20Deals/screens/offer_screen.dart';
-import 'package:support__81/features/Profile/screens/change_password.dart';
-import 'package:support__81/features/Profile/screens/edit_profile.dart';
+import 'package:support__81/features/Order/screen/check_out_screen.dart';
+import 'package:support__81/features/Order/screen/order_placed.dart';
 import 'package:support__81/features/Profile/screens/profile_screen.dart';
-import 'package:support__81/features/Auth/screens/sign-in.dart';
-import 'package:support__81/features/Auth/screens/sign-up.dart';
 import 'package:support__81/features/Splash/screen/splashscreen.dart';
 import 'package:support__81/provider/bookmark_provider.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import 'package:support__81/provider/user_provider.dart';
 import 'package:support__81/router.dart';
-import 'package:flutter/material.dart';
 
 import 'features/Bookmark/services/bookmark_services.dart';
 import 'features/Cart/services/cart_services.dart';
@@ -57,12 +53,12 @@ class _MyAppState extends State<MyApp> {
   CartServices _cartServices = CartServices();
   BookmarkServices _bookmarkServices = BookmarkServices();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getCart();
-  //   fetchBookmarkProducts();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    getCart();
+    fetchBookmarkProducts();
+  }
 
   void getCart() {
     _cartServices.getCart(context);
@@ -85,7 +81,7 @@ class _MyAppState extends State<MyApp> {
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
-        home: const MyOrdersScreen(),
+        home: const SplashScreen(),
         onGenerateRoute: (settings) => generateRoute(settings),
         // Routes
         routes: {

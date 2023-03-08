@@ -67,7 +67,7 @@ class _CartProductTileState extends State<CartProductTile> {
                     color: Colors.white,
                   ),
                   child: Image.network(
-                  cartList.images![0],
+                    cartProduct!.images![0],
                     fit: BoxFit.cover,
                   ),
                 ),

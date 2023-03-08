@@ -2,17 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:support__81/common/customtext.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/extensions.dart';
 
 class ProfileTextField extends StatelessWidget {
-  final String fieldName;
+  final String? fieldName;
   final String hintText;
+  final bool? isFieldName;
+  final int? maxLines;
   const ProfileTextField({
     Key? key,
-    required this.fieldName,
+    this.fieldName,
     required this.hintText,
+    this.isFieldName = true,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -20,25 +25,29 @@ class ProfileTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: 5.w),
-          child: CustomTextPoppines(
-            text: fieldName,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        10.vs,
+        isFieldName!
+            ? Padding(
+                padding: EdgeInsets.only(left: 5.w, bottom: 10.h),
+                child: CustomTextPoppines(
+                  text: fieldName!,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+            : SizedBox(),
         TextFormField(
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+            contentPadding: EdgeInsets.symmetric(
+                horizontal: 20.w, vertical: (maxLines! > 8) ? 20.h : 0.h),
             enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(40.r),
+                borderRadius:
+                    BorderRadius.circular((maxLines! > 8) ? 15.r : 30.r),
                 borderSide: BorderSide(color: AppTheme.whiteColorFFFFFF)),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20.r),
                 borderSide: BorderSide(color: AppTheme.whiteColorFFFFFF)),
             hintText: hintText,
           ),
+          maxLines: maxLines,
         ),
         15.vs,
       ],
