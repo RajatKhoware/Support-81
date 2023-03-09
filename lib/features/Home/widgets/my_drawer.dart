@@ -1,7 +1,9 @@
+import 'package:support__81/features/About%20us/about_us.dart';
 import 'package:support__81/features/Auth/services/auth_serices.dart';
 import 'package:support__81/features/Bookmark/screens/bookmark_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:support__81/features/Contact%20us/screens/contact_us.dart';
 import '../../../common/button.dart';
 import '../../../common/customtext.dart';
 import '../../../common/snakebar.dart';
@@ -97,16 +99,14 @@ class MyDrawer extends StatelessWidget {
                   icon: Icons.info,
                   text: "About Us",
                   onTap: () {
-                    showSnakeBar(context,
-                        "No clue so this feature is not spported Yet!");
+                    Navigator.pushNamed(context, AboutUs.routeName);
                   },
                 ),
                 DrawerListTile(
                   icon: Icons.phone,
                   text: "Contact Us",
                   onTap: () {
-                    showSnakeBar(context,
-                        "No clue so this feature is not spported Yet!");
+                    Navigator.pushNamed(context, ContactUs.routeName);
                   },
                 ),
                 DrawerListTile(

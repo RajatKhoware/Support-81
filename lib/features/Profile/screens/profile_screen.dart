@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:support__81/common/button.dart';
 import 'package:support__81/constant/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:support__81/features/About%20us/about_us.dart';
+import 'package:support__81/features/Address/screens/added_address.dart';
+import 'package:support__81/features/Contact%20us/screens/contact_us.dart';
+import 'package:support__81/features/Order/screen/my_order_screen.dart';
+import 'package:support__81/features/Payment/screens/added_cards.dart';
+import 'package:support__81/features/Profile/screens/edit_profile.dart';
 import '../../../common/custom_appbar.dart';
 import '../../../common/customtext.dart';
 import '../widget/profile_card.dart';
@@ -26,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             body: Padding(
-              padding: EdgeInsets.only(left: 20.w, top: 10.h),
+              padding: EdgeInsets.only(left: 20.w, top: 10.h, right: 15.w),
               child: Column(
                 children: [
                   //Profile Detailes
@@ -65,21 +71,79 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10.h),
-                  const ProfileCard(),
-                  const ProfileCard(),
-                  const ProfileCard(),
-                  const ProfileCard(),
-                  const ProfileCard(),
-                  SizedBox(height: 30.h),
-                  CustomButton(
-                    width: 161.w,
-                    height: 45.h,
-                    color: GloabalVariables.buttonRed,
-                    text: "Log Out",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ProfileCard(
+                            cardHeadline: "Setting",
+                            cardSubHeadline:
+                                "Username, Password, Number, e-mail",
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, EditProfile.routeName);
+                            },
+                          ),
+                          ProfileCard(
+                            cardHeadline: "My orders",
+                            cardSubHeadline: "Already have 10 orders",
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, MyOrdersScreen.routeName);
+                            },
+                          ),
+                          ProfileCard(
+                            cardHeadline: "Shipping Address",
+                            cardSubHeadline: "03 Address",
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, AddedAddress.routeName);
+                            },
+                          ),
+                          ProfileCard(
+                            cardHeadline: "Payment Method",
+                            cardSubHeadline: "You have 2 cards",
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, AddedCards.routeName);
+                            },
+                          ),
+                          ProfileCard(
+                            cardHeadline: "About Us",
+                            cardSubHeadline: "Know about us",
+                            onTap: () {
+                              Navigator.pushNamed(context, AboutUs.routeName);
+                            },
+                          ),
+                          ProfileCard(
+                            cardHeadline: "Support",
+                            cardSubHeadline: "Contact Us",
+                            onTap: () {
+                              Navigator.pushNamed(context, ContactUs.routeName);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
+
+                  SizedBox(height: 15.h),
                 ],
+              ),
+            ),
+            bottomNavigationBar: Padding(
+              padding: EdgeInsets.only(
+                left: 120.w,
+                right: 120.w,
+                bottom: 10.h,
+              ),
+              child: CustomButton(
+                width: 100.w,
+                height: 45.h,
+                color: GloabalVariables.buttonRed,
+                text: "Log Out",
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
               ),
             ),
           );

@@ -7,8 +7,9 @@ import '../../../common/customtext.dart';
 import '../../../constant/app_theme.dart';
 import '../widget/profile_textfield.dart';
 
-class ChangePasswordPage extends StatelessWidget {
-  const ChangePasswordPage({super.key});
+class ChangePassword extends StatelessWidget {
+  static const String routeName = '/change_password';
+  const ChangePassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class ChangePasswordPage extends StatelessWidget {
       // Appbar
       appBar: AppBar(
         elevation: 0.0,
+        leading: SizedBox(),
         actions: [Icon(Icons.share, color: Colors.white), 15.hs],
       ),
       body: Padding(
@@ -24,10 +26,13 @@ class ChangePasswordPage extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  CupertinoIcons.back,
-                  color: Colors.white,
-                  size: 20.sp,
+                InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    CupertinoIcons.back,
+                    color: Colors.white,
+                    size: 20.sp,
+                  ),
                 ),
                 10.hs,
                 CustomTextPoppines(

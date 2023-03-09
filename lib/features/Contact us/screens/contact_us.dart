@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:support__81/common/button.dart';
@@ -13,6 +11,7 @@ import 'package:support__81/features/Profile/widget/profile_textfield.dart';
 import '../../../common/custom_appbar.dart';
 
 class ContactUs extends StatelessWidget {
+  static const String routeName = '/contact-us';
   const ContactUs({super.key});
 
   @override
@@ -49,7 +48,7 @@ class ContactUs extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 158.w,
+                width: 155.w,
                 height: 1.0.h,
                 color: AppTheme.greyColor909090,
               ),
@@ -61,7 +60,7 @@ class ContactUs extends StatelessWidget {
                   fontWeight: FontWeight.normal),
               SizedBox(width: 10.h),
               Container(
-                width: 158.w,
+                width: 155.w,
                 height: 1.0.h,
                 color: AppTheme.greyColor909090,
               ),

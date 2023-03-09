@@ -6,9 +6,11 @@ import 'package:support__81/common/button.dart';
 import 'package:support__81/common/customtext.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/extensions.dart';
+import 'package:support__81/features/Profile/screens/change_password.dart';
 import '../widget/profile_textfield.dart';
 
 class EditProfile extends StatefulWidget {
+  static const String routeName = '/edit-profile';
   const EditProfile({super.key});
 
   @override
@@ -23,13 +25,17 @@ class _EditProfileState extends State<EditProfile> {
       appBar: AppBar(
         backgroundColor: AppTheme.darkRedColor,
         elevation: 0.0,
-        actions: [Icon(Icons.share, color: Colors.white), 15.hs],
+        leading: SizedBox(),
+        actions: [
+          Icon(Icons.share, color: Colors.white),
+          15.hs,
+        ],
       ),
       body: Column(children: [
         // Profile Picture
         SizedBox(
           width: double.infinity,
-          height: 140.h,
+          height: 150.h,
           child: Stack(
             children: [
               Positioned(
@@ -43,10 +49,13 @@ class _EditProfileState extends State<EditProfile> {
                 child: Row(
                   children: [
                     10.hs,
-                    Icon(
-                      CupertinoIcons.back,
-                      color: Colors.white,
-                      size: 20.sp,
+                    InkWell(
+                      onTap: () => Navigator.pop(context),
+                      child: Icon(
+                        CupertinoIcons.back,
+                        color: Colors.white,
+                        size: 20.sp,
+                      ),
                     ),
                     15.hs,
                     CustomTextPoppines(
@@ -101,9 +110,15 @@ class _EditProfileState extends State<EditProfile> {
                     fieldName: "Phone Number",
                     hintText: "+14955559999",
                   ),
-                  ProfileTextField(
-                    fieldName: "Change Password",
-                    hintText: "feivnRNfadf",
+                  InkWell(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      ChangePassword.routeName,
+                    ),
+                    child: ProfileTextField(
+                      fieldName: "Change Password",
+                      hintText: "feivnRNfadf",
+                    ),
                   ),
                 ],
               ),

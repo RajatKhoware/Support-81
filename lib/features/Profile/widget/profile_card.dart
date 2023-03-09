@@ -1,21 +1,32 @@
-import 'package:support__81/constant/app_theme.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../common/customtext.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:support__81/constant/app_theme.dart';
+
+import '../../../common/customtext.dart';
+
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({super.key});
+  final String cardHeadline;
+  final String cardSubHeadline;
+  final VoidCallback onTap;
+  const ProfileCard({
+    Key? key,
+    required this.cardHeadline,
+    required this.cardSubHeadline,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
       child: Container(
-        width: 335.w,
-        height: 80.h,
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height > 820 ? 90.h : 75.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: BorderRadius.circular(15.r),
           color: Theme.of(context).cardColor,
           boxShadow: [
             BoxShadow(
@@ -34,14 +45,14 @@ class ProfileCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextPoppines(
-                    text: "My orders",
-                    fontSize: 18.sp,
+                    text: cardHeadline,
+                    fontSize: 16.sp,
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,
                   ),
                   SizedBox(height: 5.h),
                   CustomTextPoppines(
-                    text: "Already have 10 orders",
+                    text: cardSubHeadline,
                     fontSize: 12.sp,
                     color: AppTheme.greyColor909090,
                   ),
@@ -49,11 +60,11 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: onTap,
               icon: Icon(
                 CupertinoIcons.forward,
                 color: Theme.of(context).primaryColor,
-                size: 20.sp,
+                size: 18.sp,
               ),
             ),
           ],

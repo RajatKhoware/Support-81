@@ -9,12 +9,14 @@ class CustomAppBar extends StatelessWidget {
   final bool? isBackButton;
   final double fontSize;
   final double iconSize;
+  final bool? isCenterTitle;
   const CustomAppBar({
     Key? key,
     required this.title,
     this.isBackButton = true,
     this.fontSize = 18,
     this.iconSize = 25,
+    this.isCenterTitle = true,
   }) : super(key: key);
 
   @override
@@ -32,12 +34,13 @@ class CustomAppBar extends StatelessWidget {
               ),
             )
           : null,
-      title: CustomText(
+      title: CustomTextPoppines(
         text: title,
         fontSize: fontSize.sp,
+        fontWeight: FontWeight.w600,
         color: Theme.of(context).primaryColor,
       ),
-      centerTitle: true,
+      centerTitle: isCenterTitle,
       elevation: 0.0,
       backgroundColor: Colors.transparent,
     );

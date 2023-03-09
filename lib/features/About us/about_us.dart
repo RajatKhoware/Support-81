@@ -7,6 +7,7 @@ import 'package:support__81/constant/app_theme.dart';
 import '../../common/custom_appbar.dart';
 
 class AboutUs extends StatelessWidget {
+  static const String routeName = '/about-us';
   const AboutUs({super.key});
 
   @override

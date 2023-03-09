@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/common/customtext.dart';
 import 'package:support__81/constant/app_theme.dart';
+import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Cart/services/cart_services.dart';
 import 'package:support__81/provider/cart_provider.dart';
 
@@ -82,19 +83,19 @@ class _CartProductTileState extends State<CartProductTile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomTextPoppines(
-                        text: cartProduct!.productName.toString(),
+                        text: cartProduct.productName.toString(),
                         fontSize: 14.sp,
                         color: AppTheme.greyColor909090,
                         maxLines: 1,
                       ),
-                      SizedBox(height: 8.h),
+                      MediaQuery.of(context).size.height > 820 ? 6.vs : 8.vs,
                       CustomTextPoppines(
                         text: "\$ ${cartProduct.price}",
                         fontSize: 16.sp,
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w600,
                       ),
-                      SizedBox(height: 15.h),
+                      MediaQuery.of(context).size.height > 820 ? 10.vs : 14.vs,
                       //Qunatity
                       SizedBox(
                         width: 113.w,

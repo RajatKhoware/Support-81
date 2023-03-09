@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Home/widgets/searchfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:support__81/main.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import '../../../common/customtext.dart';
 import '../../Cart/services/cart_services.dart';
@@ -29,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getCart() {
     _cartServices.getCart(context);
+
     setState(() {});
   }
 
@@ -47,87 +47,87 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
 
-    return ScreenUtilInit(
-      designSize: const Size(393, 781),
-      builder: (context, child) {
-        return Scaffold(
-          // Drawer Icon + Serach Field
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            iconTheme: IconThemeData(
-              color: AppTheme.greyColor909090,
-            ),
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    size: 28.sp,
-                  ),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  tooltip:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
-                );
-              },
-            ),
-            leadingWidth: 30.w,
-            title: Container(
-              width: 320.w,
-              height: 40.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.r),
-                color: Colors.white,
+    return Scaffold(
+      // Drawer Icon + Serach Field
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(
+          color: AppTheme.greyColor909090,
+        ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(
+                Icons.menu,
+                size: 28.sp,
               ),
-              child: const SerachField(),
-            ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(top: 14.h),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0.0),
-                  badgeContent: CustomTextPoppines(
-                    text: cartProductLeng.toString(),
-                    fontSize: 10.sp,
-                  ),
-                  badgeStyle: BadgeStyle(
-                    elevation: 0.0,
-                    badgeColor: Colors.red,
-                    padding: EdgeInsets.all(4.0),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      getCart();
-                      Navigator.pushNamed(context, "/my-cart");
-                    },
-                    child: Icon(
-                      CupertinoIcons.bag_fill,
-                      size: 28.sp,
-                      color: AppTheme.whiteColorFFFFFF,
-                    ),
-                  ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        leadingWidth: 30.w,
+        title: Container(
+          width: 320.w,
+          height: 40.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.r),
+            color: Colors.white,
+          ),
+          child: const SerachField(),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(top: 14.h),
+            child: Badge(
+              position: BadgePosition.topEnd(end: 0.0),
+              badgeContent: CustomTextPoppines(
+                text: cartProductLeng.toString(),
+                fontSize: 10.sp,
+              ),
+              badgeStyle: BadgeStyle(
+                elevation: 0.0,
+                badgeColor: Colors.red,
+                padding: EdgeInsets.all(4.0),
+              ),
+              child: InkWell(
+                onTap: () {
+                  getCart();
+                  Navigator.pushNamed(context, "/my-cart");
+                  print(MediaQuery.of(context).size.height);
+                  print(MediaQuery.of(context).size.width);
+                  print("hello");
+                },
+                child: Icon(
+                  CupertinoIcons.bag_fill,
+                  size: 28.sp,
+                  color: AppTheme.whiteColorFFFFFF,
                 ),
               ),
-              15.hs,
-            ],
+            ),
           ),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Column(children: [
-              InkWell(onTap: () {}, child: SizedBox(height: 10.h)),
-              //Tab bar
-              tabBar(),
-              //TabBar view
-              Expanded(
-                child: AppLists.tabScreens[currentIndex],
-              ),
-            ]),
+          15.hs,
+        ],
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        child: Column(children: [
+          InkWell(
+            onTap: () {},
+            child: SizedBox(height: 10.h),
           ),
-          // floatingActionButton: const FloadtingActionButton(),
-          drawer: const MyDrawer(),
-        );
-      },
+          //Tab bar
+          tabBar(),
+          //TabBar view
+          Expanded(
+            child: AppLists.tabScreens[currentIndex],
+          ),
+        ]),
+      ),
+      // floatingActionButton: const FloadtingActionButton(),
+      drawer: const MyDrawer(),
     );
   }
 

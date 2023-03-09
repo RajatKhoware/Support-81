@@ -30,23 +30,24 @@ class ProfileTextField extends StatelessWidget {
                 padding: EdgeInsets.only(left: 5.w, bottom: 10.h),
                 child: CustomTextPoppines(
                   text: fieldName!,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                 ),
               )
             : SizedBox(),
         TextFormField(
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: 20.w, vertical: (maxLines! > 8) ? 20.h : 0.h),
-            enabledBorder: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular((maxLines! > 8) ? 15.r : 30.r),
-                borderSide: BorderSide(color: AppTheme.whiteColorFFFFFF)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.r),
-                borderSide: BorderSide(color: AppTheme.whiteColorFFFFFF)),
-            hintText: hintText,
-          ),
+              contentPadding: EdgeInsets.symmetric(
+                  horizontal: 20.w, vertical: (maxLines! >= 3) ? 20.h : 0.h),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius:
+                      BorderRadius.circular((maxLines! >= 3) ? 15.r : 30.r),
+                  borderSide: BorderSide(color: AppTheme.whiteColorFFFFFF)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.r),
+                  borderSide: BorderSide(color: AppTheme.whiteColorFFFFFF)),
+              hintText: hintText,
+              hintStyle: TextStyle(fontSize: 16.sp)),
           maxLines: maxLines,
         ),
         15.vs,
