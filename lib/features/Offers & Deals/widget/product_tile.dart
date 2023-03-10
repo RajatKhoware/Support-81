@@ -109,15 +109,18 @@ class ProductsTile extends StatelessWidget {
         SizedBox(height: 10.h),
         Padding(
           padding: EdgeInsets.only(right: 10.w),
-          child: CustomTextPoppines(
-            text: productName,
-            maxLines: 2,
-            fontSize: screenHeight > 820
-                ? 11.sp
-                : screenHeight > 790
-                    ? 12.sp
-                    : 13.sp,
-            color: Theme.of(context).primaryColor,
+          child: SizedBox(
+            // height: 35.h,
+            child: CustomTextPoppines(
+              text: productName,
+              maxLines: 2,
+              fontSize: screenHeight > 820
+                  ? 11.sp
+                  : screenHeight > 790
+                      ? 12.sp
+                      : 13.sp,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
         SizedBox(height: 10.h),

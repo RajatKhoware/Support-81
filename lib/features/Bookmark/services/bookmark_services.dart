@@ -71,7 +71,7 @@ class BookmarkServices {
         return GetBookmarkProductModel.fromJson(data);
       }
     } catch (e) {
-      showSnakeBar(context, e.toString());
+      // showSnakeBar(context, e.toString());
       print(e.toString());
       throw Exception('Failed to load product details');
     }

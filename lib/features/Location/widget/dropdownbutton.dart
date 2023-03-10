@@ -15,6 +15,7 @@ class DropdownForStore extends StatefulWidget {
 class _DropdownForStoreState extends State<DropdownForStore> {
   String? _selectedStore;
   List<String>? _shopNames;
+  String? _hoverItem;
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _DropdownForStoreState extends State<DropdownForStore> {
         color: AppTheme.greyColor1F1F1F,
         borderRadius: BorderRadius.circular(10.r),
       ),
-      padding: EdgeInsets.all(10.w.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
       //DropdownButton
       child: DropdownButton<String>(
         value: _selectedStore,
@@ -64,22 +65,39 @@ class _DropdownForStoreState extends State<DropdownForStore> {
             _selectedStore = newValue!;
           });
         },
-        //List of items present in list
-
-        items: <String>[
-          'Costabianca',
-          'Costa Belgume',
-          'Ghent Belgium',
-          'Andorra'
-        ].map<DropdownMenuItem<String>>(
+        items: _shopNames!.map<DropdownMenuItem<String>>(
           (String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(
-                value,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.sp,
+              child: MouseRegion(
+                onHover: (event) {
+                  setState(() {
+                    _hoverItem = value;
+                  });
+                },
+                onExit: (event) {
+                  setState(() {
+                    _hoverItem = null;
+                  });
+                },
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: value == _hoverItem
+                          ? AppTheme.greyColor1F1F1F
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20.r)),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.h,
+                    horizontal: 10.w,
+                  ),
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
+                  ),
                 ),
               ),
             );

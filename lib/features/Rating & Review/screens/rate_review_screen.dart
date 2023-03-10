@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:support__81/common/button.dart';
 import 'package:support__81/common/customtext.dart';
 import 'package:support__81/constant/colors.dart';
+import 'package:support__81/features/Rating%20&%20Review/screens/write_review.dart';
 
 import '../../../common/custom_appbar.dart';
 import '../../../common/my_future.dart';
@@ -256,8 +257,7 @@ class _RateAndReviewScreenState extends State<RateAndReviewScreen> {
                     text: "Write a review",
                     fontSize: 17.sp,
                     onTap: () {
-                      showSnakeBar(context,
-                          "No clue so this feature is not spported Yet!");
+                      Navigator.pushNamed(context, WriteReview.routeName);
                     },
                   )
                 ],

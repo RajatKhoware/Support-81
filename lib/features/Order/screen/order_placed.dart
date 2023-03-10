@@ -2,6 +2,7 @@ import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:support__81/features/Rating%20&%20Review/screens/write_review.dart';
 
 import '../../../common/button.dart';
 import '../../../common/customtext.dart';
@@ -98,7 +99,7 @@ Thank you for choosing our app!''',
             fontColor: Theme.of(context).accentColor,
             fontWeight: FontWeight.bold,
             onTap: () {
-              Navigator.pushNamed(context, "/rate-review");
+              Navigator.pushNamed(context, WriteReview.routeName);
             },
           ),
           SizedBox(height: 10.h),

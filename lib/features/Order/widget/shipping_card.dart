@@ -2,6 +2,7 @@ import 'package:support__81/common/snakebar.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:support__81/features/Address/screens/added_address.dart';
 import '../../../common/customtext.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,7 +28,7 @@ class Shipping_address extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                 showSnakeBar(context, "No clue so this feature is not spported Yet!");
+                Navigator.pushNamed(context, AddedAddress.routeName);
               },
               icon: Icon(
                 FontAwesomeIcons.solidPenToSquare,

@@ -41,8 +41,8 @@ class _CustomGridViewState extends State<CustomGridView> {
                     crossAxisCount: 2,
                     childAspectRatio: MediaQuery.of(context).size.height > 820
                         ? 1 / 1.70
-                        : MediaQuery.of(context).size.height > 790
-                            ? 1 / 1.65
+                        : MediaQuery.of(context).size.height > 780
+                            ? 1 / 1.60
                             : MediaQuery.of(context).size.height > 650
                                 ? 1 / 1.55
                                 : 1 / 1.30,

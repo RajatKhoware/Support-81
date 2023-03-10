@@ -108,7 +108,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
                     print(bookmarkedProducts.length);
                   },
                   child: CustomTextPoppines(
-                    text: "My Bookmarks",
+                    text: "My Wishlist",
                     fontSize: 24.sp,
                   ),
                 ),

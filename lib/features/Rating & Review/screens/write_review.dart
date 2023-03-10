@@ -11,6 +11,7 @@ import '../../../common/custom_appbar.dart';
 import '../../Profile/widget/profile_textfield.dart';
 
 class WriteReview extends StatefulWidget {
+  static const String routeName = '/write-review';
   const WriteReview({super.key});
 
   @override

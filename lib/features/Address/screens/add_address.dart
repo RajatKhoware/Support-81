@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:support__81/extensions.dart';
 import '../../../common/button.dart';
@@ -87,6 +85,7 @@ class CountryDropDown_Widget extends StatefulWidget {
 
 class _CountryDropDown_WidgetState extends State<CountryDropDown_Widget> {
   String? _selectedStore;
+  String? _hoverItem;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -114,7 +113,7 @@ class _CountryDropDown_WidgetState extends State<CountryDropDown_Widget> {
               color: Colors.white,
             ),
             borderRadius: BorderRadius.circular(20.r),
-            dropdownColor: AppTheme.redPrimaryColor,
+            dropdownColor: AppTheme.darkRedColor,
             iconSize: 20.sp,
             style: const TextStyle(
               color: Colors.white,
@@ -129,19 +128,45 @@ class _CountryDropDown_WidgetState extends State<CountryDropDown_Widget> {
             //List of items present in list
             items: <String>['United States', 'UK', 'England', 'India']
                 .map<DropdownMenuItem<String>>(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
+                  (String value) => DropdownMenuItem<String>(
+                    value: value,
+                    child: MouseRegion(
+                      onHover: (event) {
+                        setState(() {
+                          _hoverItem = value;
+                        });
+                      },
+                      onExit: (event) {
+                        setState(() {
+                          _hoverItem = null;
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: value == _hoverItem
+                              ? Theme.of(context)
+                                  .scaffoldBackgroundColor
+                                  .withOpacity(0.5)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          horizontal: 10.w,
+                        ),
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                );
-              },
-            ).toList(),
+                )
+                .toList(),
             isExpanded: true,
             hint: Text(
               'United States',

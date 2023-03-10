@@ -1,9 +1,12 @@
-import 'package:support__81/constant/app_theme.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../common/customtext.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:support__81/constant/app_theme.dart';
+import 'package:support__81/features/Payment/screens/added_cards.dart';
+
+import '../../../common/customtext.dart';
 import '../../../common/snakebar.dart';
 
 //Payment + Delivery card
@@ -11,11 +14,13 @@ class CheckOutCards extends StatelessWidget {
   final String headingText;
   final String image;
   final String containtText;
+  final bool isPaymentCard;
   const CheckOutCards({
     Key? key,
     required this.headingText,
     required this.image,
     required this.containtText,
+    required this.isPaymentCard,
   }) : super(key: key);
 
   @override
@@ -32,8 +37,9 @@ class CheckOutCards extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                showSnakeBar(
-                    context, "No clue so this feature is not spported Yet!");
+                isPaymentCard
+                    ? Navigator.pushNamed(context, AddedCards.routeName)
+                    : showSnakeBar(context, "Working on it");
               },
               child: Icon(
                 FontAwesomeIcons.solidPenToSquare,

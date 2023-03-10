@@ -31,12 +31,14 @@ class CheckOutScreen extends StatelessWidget {
                   const Shipping_address(),
                   SizedBox(height: 15.h),
                   const CheckOutCards(
+                    isPaymentCard: true,
                     headingText: "Payment",
                     image: "assets/images/card.png",
                     containtText: "**** **** **** 3947",
                   ),
                   SizedBox(height: 15.h),
                   const CheckOutCards(
+                    isPaymentCard: false,
                     headingText: "Delivery method",
                     image: "assets/images/Logo.png",
                     containtText: "Fast (2-3days)",

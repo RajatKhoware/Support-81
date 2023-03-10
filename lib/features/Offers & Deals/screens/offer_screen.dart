@@ -1,7 +1,6 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:support__81/features/Home/widgets/custom_gridview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:support__81/features/Home/widgets/custom_gridview.dart';
 import '../../../common/button.dart';
 import '../../../common/custom_appbar.dart';
 import '../../../common/snakebar.dart';

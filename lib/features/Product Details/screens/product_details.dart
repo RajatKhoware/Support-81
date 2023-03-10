@@ -1,16 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:provider/provider.dart';
-import 'package:support__81/features/Bookmark/screens/bookmark_screen.dart';
-import 'package:support__81/features/Cart/services/cart_services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
 import 'package:support__81/common/button.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/constant/colors.dart';
+import 'package:support__81/extensions.dart';
+import 'package:support__81/features/Bookmark/screens/bookmark_screen.dart';
 import 'package:support__81/features/Bookmark/services/bookmark_services.dart';
+import 'package:support__81/features/Cart/services/cart_services.dart';
 import 'package:support__81/features/Product%20Details/services/product_details_services.dart';
 import 'package:support__81/features/Product%20Details/widget/expanded_desc.dart';
+
 import '../../../common/my_future.dart';
 import '../../../common/snakebar.dart';
 import '../../../provider/bookmark_provider.dart';
@@ -35,6 +39,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   CartServices _cartServices = CartServices();
   bool isProductBookmarked = false;
   bool isProductPresentInCart = false;
+  final List<Color> productColors = [
+    Colors.white,
+    Colors.red,
+    Colors.black,
+    Colors.yellow,
+  ];
+  var currentColor = 0;
 
   // Bookmark
   Future addBookmark() {
@@ -61,11 +72,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
+  // Get cart
   void getCart() {
     _cartServices.getCart(context);
     setState(() {});
   }
 
+  // Get Bookmark
   void fetchBookmarkProducts() {
     _bookmarkServices.getBookmarkedProducts(context: context);
     setState(() {});
@@ -73,9 +86,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartProvider>(context, listen: true).cart;
-    final bookmark =
-        Provider.of<BookmarkedProvider>(context, listen: true).products;
+    final cart = context.watch<CartProvider>().cart;
+    final bookmark = context.watch<BookmarkedProvider>().products;
 
     // Checking if the product present in the cart or not
     if (cart.data != null) {
@@ -103,100 +115,109 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       designSize: const Size(393, 781),
       builder: (context, child) {
         return Scaffold(
-          body: MyFutureBuilder(
-            future: productDetails(),
-            builder: (context, data) {
-              final product = data.data;
-              return CustomScrollView(
-                slivers: [
-                  // Appbar with Image + Back Button
-                  SliverAppBar(
-                    expandedHeight: 340.h,
-                    backgroundColor: Colors.transparent,
-                    pinned: true,
-                    centerTitle: false,
-                    automaticallyImplyLeading: false,
-                    // Image
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Image.network(
-                        product!.image![0],
-                        fit: BoxFit.fill,
-                        width: double.infinity,
-                      ),
-                    ),
-                    // Back Button
-                    title: Container(
-                      width: 40.w,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.r),
-                        color: AppTheme.greyColor2B2B2B,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(context)
-                                .primaryColor
-                                .withOpacity(0.05),
-                            blurRadius: 15.r,
-                            spreadRadius: 2.r,
+          body: FutureBuilder(
+            future: _detailsServices.getProductDetails(
+              productId: widget.productId,
+              context: context,
+            ),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final product = snapshot.data!.data!;
+                return CustomScrollView(
+                  slivers: [
+                    // Appbar with Image + Back Button
+                    SliverAppBar(
+                      expandedHeight: 340.h,
+                      backgroundColor: Colors.transparent,
+                      pinned: true,
+                      centerTitle: false,
+                      automaticallyImplyLeading: false,
+                      // Image
+                      flexibleSpace: ProductImg_widget(images: product.image!),
+                      // Back Button
+                      title: Container(
+                        width: 40.w,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.r),
+                          color: AppTheme.greyColor2B2B2B,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.05),
+                              blurRadius: 15.r,
+                              spreadRadius: 2.r,
+                            ),
+                          ],
+                        ),
+                        child: IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(
+                            CupertinoIcons.back,
+                            color: Theme.of(context).primaryColor,
+                            size: 20.sp,
                           ),
-                        ],
-                      ),
-                      child: IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: Icon(
-                          CupertinoIcons.back,
-                          color: Theme.of(context).primaryColor,
-                          size: 20.sp,
                         ),
                       ),
                     ),
-                    // Bottom Indicator
-                    bottom: PreferredSize(
-                      preferredSize: Size.fromHeight(20.h),
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 10.h),
-                          child: Container(
-                            width: 35.w,
-                            height: 4.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.r),
-                              color: Theme.of(context).primaryColor,
+                    // Product Title, Price, Reviews, Qnatity
+                    SliverToBoxAdapter(
+                        child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15.w,
+                        vertical: 5.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.r),
+                          topRight: Radius.circular(20.r),
+                        ),
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 110.w),
+                            child: Container(
+                              height: 25.h,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) =>
+                                    GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      currentColor = index;
+                                    });
+                                  },
+                                  child: ColorPicker(
+                                    outerBorder: currentColor == index,
+                                    color: productColors[index],
+                                  ),
+                                ),
+                                itemCount: productColors.length,
+                              ),
                             ),
                           ),
-                        ),
+                          20.vs,
+                          ProductDetaileColumn(
+                            productPrice: product.price,
+                            productId: product.id!.toDouble(),
+                            avgRating: product.avgRating!.toDouble(),
+                          ),
+                          SizedBox(height: 10.h),
+                          ExpandableTextWidget(
+                              text: product.description.toString()),
+                        ],
                       ),
-                    ),
-                  ),
-                  // Product Title, Price, Reviews, Qnatity
-                  SliverToBoxAdapter(
-                      child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 15.w,
-                      vertical: 20.h,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.r),
-                        topRight: Radius.circular(20.r),
-                      ),
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
-                    child: Column(
-                      children: [
-                        ProductDetaileColumn(
-                          productPrice: product.price,
-                          productId: product.id!.toDouble(),
-                          avgRating: product.avgRating!.toDouble(),
-                        ),
-                        SizedBox(height: 10.h),
-                        ExpandableTextWidget(
-                            text: product.description.toString()),
-                      ],
-                    ),
-                  ))
-                ],
-              );
+                    ))
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
             },
           ),
           //Bottom bar
@@ -243,11 +264,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               fetchBookmarkProducts();
                             },
                             icon: Icon(
-                              CupertinoIcons.bookmark_solid,
+                              CupertinoIcons.heart_fill,
                               color: isProductBookmarked
                                   ? AppTheme.redPrimaryColor
                                   : AppTheme.greyColor909090,
-                              size: 24.sp,
+                              size: 28.sp,
                             ),
                           ),
                         );
@@ -282,135 +303,125 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 }
 
-// class ProductDetailsPage extends StatefulWidget {
-//   const ProductDetailsPage({super.key});
+class ColorPicker extends StatelessWidget {
+  final bool outerBorder;
+  final Color color;
+  const ColorPicker({
+    Key? key,
+    required this.outerBorder,
+    required this.color,
+  }) : super(key: key);
 
-//   @override
-//   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 8.w),
+      child: Container(
+        padding: EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: outerBorder
+              ? Border.all(
+                  width: 3.w,
+                  color: Colors.white,
+                )
+              : null,
+        ),
+        child: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-// class _ProductDetailsPageState extends State<ProductDetailsPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: GloabalVariables.bgBlack,
-//       body: SafeArea(
-//         child: Stack(
-//           children: [
-//             // Product Img
-//             Positioned(
-//               left: 0,
-//               right: 0,
-//               child: Container(
-//                 width: double.infinity,
-//                 height: 350,
-//                 decoration: const BoxDecoration(
-//                   image: DecorationImage(
-//                     image: AssetImage("assets/products/jacket.png"),
-//                     fit: BoxFit.contain,
-//                   ),
-//                   // color: Colors.white.withOpacity(0.3),
-//                 ),
-//               ),
-//             ),
-//             // Back Icon
-//             Positioned(
-//               left: 20,
-//               top: 20,
-//               child: Container(
-//                 width: 40,
-//                 height: 40,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(6),
-//                   color: GloabalVariables.buttonColors,
-//                   boxShadow: [
-//                     BoxShadow(
-//                         color: Colors.white.withOpacity(0.1),
-//                         offset: const Offset(0, 0),
-//                         blurRadius: 15,
-//                         spreadRadius: 2)
-//                   ],
-//                 ),
-//                 child: IconButton(
-//                   onPressed: () {},
-//                   icon: Icon(
-//                     CupertinoIcons.back,
-//                     color: Colors.white.withOpacity(0.8),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             // Product Details Column
-//             Positioned(
-//               left: 0,
-//               right: 0,
-//               bottom: 0,
-//               top: 305,
-//               child: Container(
-//                 padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-//                 decoration: const BoxDecoration(
-//                   borderRadius: BorderRadius.only(
-//                     topLeft: Radius.circular(20),
-//                     topRight: Radius.circular(20),
-//                   ),
-//                   // color: Colors.black.withOpacity(0.3),
-//                 ),
-//                 child: Column(
-//                   children: const [
-//                     ProductDetaileColumn(),
-//                     SizedBox(height: 10),
-//                     //Description of Product
-//                     Expanded(
-//                       child: SingleChildScrollView(
-//                         padding: EdgeInsets.only(bottom: 10),
-//                         child: ExpandableTextWidget(
-//                           text: _productDesc,
-//                         ),
-//                       ),
-//                     ),
-//                     //
-//                   ],
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//       bottomNavigationBar: Container(
-//         width: double.infinity,
-//         height: 70,
-//         color: GloabalVariables.bgBlack,
-//         child: Padding(
-//           padding: const EdgeInsets.only(left: 20, bottom: 10, right: 20),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Container(
-//                 width: 56,
-//                 height: 56,
-//                 decoration: const BoxDecoration(
-//                   shape: BoxShape.circle,
-//                   color: GloabalVariables.buttonColors,
-//                 ),
-//                 child: IconButton(
-//                   onPressed: () {},
-//                   icon: Icon(
-//                     CupertinoIcons.bookmark_solid,
-//                     color: Colors.white.withOpacity(0.3),
-//                   ),
-//                 ),
-//               ),
-//               const CustomButton(
-//                 width: 260,
-//                 height: 56,
-//                 color: GloabalVariables.buttonRed,
-//                 text: "Add to cart",
-//                 fontSize: 18,
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+class ProductImg_widget extends StatefulWidget {
+  final List images;
+  const ProductImg_widget({
+    Key? key,
+    required this.images,
+  }) : super(key: key);
+
+  @override
+  State<ProductImg_widget> createState() => _ProductImg_widgetState();
+}
+
+class _ProductImg_widgetState extends State<ProductImg_widget> {
+  CarouselController _controller = CarouselController();
+  int _currentPage = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          child: CarouselSlider(
+            carouselController: _controller,
+            options: CarouselOptions(
+              height: double.infinity,
+              viewportFraction: 1,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentPage = index;
+                });
+              },
+            ),
+            items: widget.images
+                .map(
+                  (e) => Builder(
+                    builder: (context) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(e),
+                          // fit: BoxFit.cover,
+                        ),
+                        //color: Colors.black,
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        Positioned(
+          bottom: 10.h,
+          left: 160.w,
+          child: Row(
+            children: widget.images
+                .asMap()
+                .entries
+                .map(
+                  (e) => InkWell(
+                    onTap: () {
+                      _controller.animateToPage(e.key);
+                    },
+                    child: widget.images.length > 1
+                        ? Container(
+                            margin: EdgeInsets.symmetric(horizontal: 2.w),
+                            width: _currentPage == e.key ? 25.w : 6.w,
+                            height: _currentPage == e.key ? 6.h : 6.h,
+                            decoration: BoxDecoration(
+                              borderRadius: _currentPage == e.key
+                                  ? BorderRadius.circular(20.r)
+                                  : null,
+                              shape: _currentPage == e.key
+                                  ? BoxShape.rectangle
+                                  : BoxShape.circle,
+                              color: Colors.white.withOpacity(
+                                _currentPage == e.key ? 0.9 : 0.4,
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ],
+    );
+  }
+}

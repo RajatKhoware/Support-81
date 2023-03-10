@@ -13,6 +13,7 @@ import 'package:support__81/features/Product%20Details/screens/product_details.d
 import 'package:support__81/features/Profile/screens/change_password.dart';
 import 'package:support__81/features/Profile/screens/edit_profile.dart';
 import 'package:support__81/features/Rating%20&%20Review/screens/rate_review_screen.dart';
+import 'package:support__81/features/Rating%20&%20Review/screens/write_review.dart';
 import 'package:support__81/features/Splash/screen/splashscreen.dart';
 import 'package:flutter/material.dart';
 
@@ -99,6 +100,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => MyOrdersScreen(),
+      );
+      case WriteReview.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => WriteReview(),
       );
     default:
       return MaterialPageRoute(
