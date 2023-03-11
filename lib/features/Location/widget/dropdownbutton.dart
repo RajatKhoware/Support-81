@@ -28,7 +28,7 @@ class _DropdownForStoreState extends State<DropdownForStore> {
     final stores = await storeService.fetchStores(
       context: context,
       lat: "28.391018",
-      long: "77.416721",
+      long: "77.416721"
     );
     setState(() {
       _shopNames =
