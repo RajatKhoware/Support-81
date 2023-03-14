@@ -1,9 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/constant/app_theme.dart';
-import 'package:support__81/features/Address/screens/add_address.dart';
-import 'package:support__81/features/Address/screens/added_address.dart';
 import 'package:support__81/features/Auth/screens/sign-in.dart';
 import 'package:support__81/features/Auth/screens/sign-up.dart';
 import 'package:support__81/features/Cart/screen/my_cart.dart';
@@ -13,22 +13,22 @@ import 'package:support__81/features/Location/screen/fetch_location.dart';
 import 'package:support__81/features/Notificaion/screens/notification_screen.dart';
 import 'package:support__81/features/Offers%20&%20Deals/screens/offer_screen.dart';
 import 'package:support__81/features/Order/screen/check_out_screen.dart';
-import 'package:support__81/features/Order/screen/my_order_screen.dart';
 import 'package:support__81/features/Order/screen/order_placed.dart';
-import 'package:support__81/features/Payment/screens/add_card_screen.dart';
-import 'package:support__81/features/Payment/screens/added_cards.dart';
 import 'package:support__81/features/Profile/screens/profile_screen.dart';
-import 'package:support__81/features/Rating%20&%20Review/screens/write_review.dart';
 import 'package:support__81/features/Splash/screen/splashscreen.dart';
 import 'package:support__81/provider/bookmark_provider.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import 'package:support__81/provider/user_provider.dart';
 import 'package:support__81/router.dart';
-
 import 'features/Bookmark/services/bookmark_services.dart';
 import 'features/Cart/services/cart_services.dart';
 
-void main() {
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  	print(message.data.toString());
+ 	print(message.notification!.title);
+	} 
+void main() async {
   runApp(
     MultiProvider(
       providers: [
@@ -43,9 +43,11 @@ void main() {
         ),
       ],
       child: MyApp(),
-      // DevicePreview(enabled: true, builder: (context) => MyApp()),
     ),
   );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 }
 
 class MyApp extends StatefulWidget {

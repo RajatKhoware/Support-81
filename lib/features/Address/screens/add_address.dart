@@ -38,22 +38,22 @@ class _AddAddressState extends State<AddAddress> {
               10.vs,
               ProfileTextField(
                 hintText: "First Name",
-                fieldName: "Enter First Name",
+                fieldName: "First Name",
               ),
               10.vs,
               ProfileTextField(
                 hintText: "Last Name",
-                fieldName: "Enter Last Name",
+                fieldName: "Last Name",
               ),
               10.vs,
               ProfileTextField(
                 hintText: "Street Address",
-                fieldName: "Enter Street Address",
+                fieldName: "Street Address",
               ),
               10.vs,
               ProfileTextField(
                 hintText: "Street Address 2 (Optional)",
-                fieldName: "Enter Street Address 2",
+                fieldName: "Street Address 2",
               ),
             ],
           ),
