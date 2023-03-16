@@ -42,6 +42,7 @@ class ProductsTile extends StatelessWidget {
               context,
               productId,
             );
+            print(productId);
           },
           child: SizedBox(
             width: 170.w,

@@ -16,6 +16,7 @@ import 'package:support__81/features/Order/screen/check_out_screen.dart';
 import 'package:support__81/features/Order/screen/order_placed.dart';
 import 'package:support__81/features/Profile/screens/profile_screen.dart';
 import 'package:support__81/features/Splash/screen/splashscreen.dart';
+import 'package:support__81/notificationservice/local_notification_service.dart';
 import 'package:support__81/provider/bookmark_provider.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import 'package:support__81/provider/user_provider.dart';
@@ -23,11 +24,11 @@ import 'package:support__81/router.dart';
 import 'features/Bookmark/services/bookmark_services.dart';
 import 'features/Cart/services/cart_services.dart';
 
-
 Future<void> backgroundHandler(RemoteMessage message) async {
-  	print(message.data.toString());
- 	print(message.notification!.title);
-	} 
+  print(message.data.toString());
+  print(message.notification!.title);
+}
+
 void main() async {
   runApp(
     MultiProvider(
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     getCart();
     fetchBookmarkProducts();
+    LocalNotificationService.initialize(context);
   }
 
   void getCart() {

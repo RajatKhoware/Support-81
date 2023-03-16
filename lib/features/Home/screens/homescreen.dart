@@ -11,6 +11,7 @@ import 'package:support__81/features/Home/widgets/searchfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import '../../../common/customtext.dart';
+import '../../../notificationservice/local_notification_service.dart';
 import '../../Cart/services/cart_services.dart';
 import '../widgets/my_drawer.dart';
 
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   CartServices _cartServices = CartServices();
   //Tab current index
   int currentIndex = 0;
+  String deviceTokenToSendPushNotification = '';
 
   void getCart() {
     _cartServices.getCart(context);
@@ -35,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //* FIREBASE NOTIFICATIONS
 // ----------------------------------------------------------------------------------------------------------------------------------
 
-   @override
+  @override
   void initState() {
     super.initState();
 
@@ -68,8 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
           print(message.notification!.title);
           print(message.notification!.body);
           print("message.data11 ${message.data}");
-          // LocalNotificationService.display(message);
-
+          LocalNotificationService.createanddisplaynotification(message);
         }
       },
     );
@@ -89,8 +90,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 
+  Future<void> getDeviceTokenToSendNotification() async {
+    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+    final token = await _fcm.getToken();
+    deviceTokenToSendPushNotification = token.toString();
+    print("Token Value $deviceTokenToSendPushNotification");
+  }
+
   @override
   Widget build(BuildContext context) {
+    getDeviceTokenToSendNotification();
     final cart = Provider.of<CartProvider>(context, listen: true).cart;
     late final cartProductLeng;
     // Checking if cart is null or not
