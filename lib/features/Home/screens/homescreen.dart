@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
     final token = await _fcm.getToken();
     deviceTokenToSendPushNotification = token.toString();
-    print("Token Value $deviceTokenToSendPushNotification");
+    // print("Token Value for push Notification $deviceTokenToSendPushNotification");
   }
 
   @override

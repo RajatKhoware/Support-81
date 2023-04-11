@@ -22,38 +22,46 @@ class AuthServices {
   }) async {
     String _responseMessage = '';
     try {
-      http.Response res = await http.post(
+      final response = await http.post(
         Uri.parse('$url/signup'),
         body: {
-          "email": email,
-          "password": password,
-          "mobile": mobileNumber,
-          "name": name
+          'name': name,
+          'email': email,
+          'password': password,
+          'mobile': mobileNumber,
         },
       );
-      print(res.body);
-      // if(res.statusCode == 200 && )
-      final responseData = json.decode(res.body);
-      if (res.statusCode == 200 && responseData['response_code'] == 200) {
-        // If user is successfully created
+      final responseData = json.decode(response.body);
+      final responseMessage = responseData['response_message'] as String;
+      final responseCode = responseData['response_code'] as int;
+      final token = responseData['token'] as String?;
+      final userData = responseData['data'] as Map<String, dynamic>?;
+      if (responseCode == 200) {
+        if (userData != null) {
+          // Extract user data from the response
+          final userId = userData['id'] as int;
+          final userName = userData['name'] as String;
+          final userEmail = userData['email'] as String;
+          final userMobile = userData['mobile'] as String;
 
-        return _responseMessage =
-            "${responseData['response_message']} Login With Same credentials"; // Set the response message
+          // Store user data in your application state
+          // ...
 
+          // Set the response message
+          _responseMessage = '$responseMessage Login With Same credentials';
+        } else {
+          _responseMessage = 'An error occurred while adding user.';
+        }
       } else {
-        // If user already exists
-        final responseData = json.decode(res.body);
-
-        return _responseMessage =
-            responseData['response_message']; // Set the response message
-
+        _responseMessage = responseMessage;
       }
     } catch (e) {
-      return _responseMessage =
-          'An error occurred while signing up. Please try again later.';
-      // showSnakeBar(context, e.toString());
+      _responseMessage =
+          'An error occurred while adding user. Please try again later.';
+      // showSnackBar(context, e.toString());
       // print(e.toString());
     }
+    return _responseMessage;
   }
 
   //! SignIn
@@ -63,7 +71,6 @@ class AuthServices {
     required String password,
   }) async {
     try {
-      
       http.Response response = await http.post(
         Uri.parse("$url/login"),
         body: {
@@ -75,7 +82,6 @@ class AuthServices {
         response: response,
         context: context,
         onSuccess: () async {
-          // JsonDecoding
           final responseData = json.decode(response.body);
           // Using User Model to store the data
           final user = User.fromJson(responseData['data']);

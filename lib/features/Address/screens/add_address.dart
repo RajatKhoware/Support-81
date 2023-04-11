@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart';
 import 'package:support__81/extensions.dart';
+import 'package:support__81/features/Address/services/address_services.dart';
 import '../../../common/button.dart';
 import '../../../common/custom_appbar.dart';
 import '../../../common/customtext.dart';
@@ -17,6 +19,40 @@ class AddAddress extends StatefulWidget {
 }
 
 class _AddAddressState extends State<AddAddress> {
+  AddressServices addressServices = AddressServices();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController firstAddressController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+  String? selectedCountry = "India";
+  bool isWaiting = false;
+
+  @override
+  void dispose() {
+    firstAddressController.dispose();
+    lastNameController.dispose();
+    firstAddressController.dispose();
+    mobileNumberController.dispose();
+    super.dispose();
+  }
+
+  Future<void> addAddress() async {
+    setState(() {
+      isWaiting = true;
+    });
+    await addressServices.addAddress(
+      context: context,
+      firstName: firstAddressController.text,
+      lastName: lastNameController.text,
+      mobileNumber: int.parse(mobileNumberController.text),
+      fullAddress1: firstAddressController.text,
+      country: selectedCountry.toString(),
+    );
+    setState(() {
+      isWaiting = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,21 +75,25 @@ class _AddAddressState extends State<AddAddress> {
               ProfileTextField(
                 hintText: "First Name",
                 fieldName: "First Name",
+                controller: firstNameController,
               ),
               10.vs,
               ProfileTextField(
                 hintText: "Last Name",
                 fieldName: "Last Name",
+                controller: lastNameController,
+              ),
+              10.vs,
+              ProfileTextField(
+                hintText: "Mobile Number",
+                fieldName: "Mobile Number",
+                controller: mobileNumberController,
               ),
               10.vs,
               ProfileTextField(
                 hintText: "Street Address",
                 fieldName: "Street Address",
-              ),
-              10.vs,
-              ProfileTextField(
-                hintText: "Street Address 2 (Optional)",
-                fieldName: "Street Address 2",
+                controller: firstAddressController,
               ),
             ],
           ),
@@ -68,8 +108,9 @@ class _AddAddressState extends State<AddAddress> {
           width: double.infinity,
           height: 55.h,
           color: AppTheme.darkRedColor,
-          text: "Add Address",
+          text: isWaiting ? "Wait" : "Add Address",
           fontWeight: FontWeight.bold,
+          onTap: () => addAddress(),
         ),
       ),
     );

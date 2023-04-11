@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,12 +14,14 @@ class ProfileTextField extends StatelessWidget {
   final String hintText;
   final bool? isFieldName;
   final int? maxLines;
+  final TextEditingController? controller;
   const ProfileTextField({
     Key? key,
     this.fieldName,
     required this.hintText,
     this.isFieldName = true,
     this.maxLines = 1,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,7 @@ class ProfileTextField extends StatelessWidget {
               )
             : SizedBox(),
         TextFormField(
+          controller: controller,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
               horizontal: 20.w,
