@@ -1,29 +1,63 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:support__81/extensions.dart';
+import 'package:support__81/features/Address/screens/added_address.dart';
 import 'package:support__81/features/Address/services/address_services.dart';
+
 import '../../../common/button.dart';
 import '../../../common/custom_appbar.dart';
 import '../../../constant/app_theme.dart';
 import '../../Profile/widget/profile_textfield.dart';
 import '../widget/country_dropdown_button.dart';
 
-class AddAddress extends StatefulWidget {
-  static const String routeName = '/add-address';
-  const AddAddress({super.key});
+class EditAddressScreen extends StatefulWidget {
+  static const String routeName = '/edit-address';
+  const EditAddressScreen({
+    Key? key,
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.firstAddress,
+    required this.country,
+    required this.mobileNumber,
+  }) : super(key: key);
+  final String id;
+  final String firstName;
+  final String lastName;
+  final String firstAddress;
+  final String country;
+  final String mobileNumber;
 
   @override
-  State<AddAddress> createState() => _AddAddressState();
+  State<EditAddressScreen> createState() => _EditAddressScreenState();
 }
 
-class _AddAddressState extends State<AddAddress> {
+class _EditAddressScreenState extends State<EditAddressScreen> {
   AddressServices addressServices = AddressServices();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController firstAddressController = TextEditingController();
-  TextEditingController mobileNumberController = TextEditingController();
-  String? selectedCountry = "India";
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController firstAddressController = TextEditingController();
+  final TextEditingController mobileNumberController = TextEditingController();
   bool isWaiting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (firstNameController.text.isEmpty) {
+      firstNameController.text = widget.firstName;
+    }
+    if (lastNameController.text.isEmpty) {
+      lastNameController.text = widget.lastName;
+    }
+    if (firstAddressController.text.isEmpty) {
+      firstAddressController.text = widget.firstAddress;
+    }
+    if (mobileNumberController.text.isEmpty) {
+      mobileNumberController.text = widget.mobileNumber;
+    }
+  }
 
   @override
   void dispose() {
@@ -34,18 +68,21 @@ class _AddAddressState extends State<AddAddress> {
     super.dispose();
   }
 
-  Future<void> addAddress() async {
+  Future<void> editAddress() async {
     setState(() {
       isWaiting = true;
     });
-    await addressServices.addAddress(
+    await addressServices.updateAddress(
       context: context,
-      firstName: firstAddressController.text,
+      id: widget.id,
+      firstName: firstNameController.text,
       lastName: lastNameController.text,
       mobileNumber: int.parse(mobileNumberController.text),
       fullAddress1: firstAddressController.text,
-      country: selectedCountry.toString(),
+      country: widget.country.toString(),
     );
+    addressServices.getAddress(context: context);
+    Navigator.pushNamed(context, AddedAddress.routeName);
     setState(() {
       isWaiting = false;
     });
@@ -57,7 +94,7 @@ class _AddAddressState extends State<AddAddress> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(55.h),
         child: CustomAppBar(
-          title: "Add Address",
+          title: "Edit Address",
           fontSize: 18.sp,
           isCenterTitle: false,
         ),
@@ -106,9 +143,11 @@ class _AddAddressState extends State<AddAddress> {
           width: double.infinity,
           height: 55.h,
           color: AppTheme.darkRedColor,
-          text: isWaiting ? "Wait" : "Add Address",
+          text: isWaiting ? "Wait" : "Update Address",
           fontWeight: FontWeight.bold,
-          onTap: () => addAddress(),
+          onTap: () {
+            editAddress();
+          },
         ),
       ),
     );

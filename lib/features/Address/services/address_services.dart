@@ -36,41 +36,11 @@ class AddressServices {
         print(data['response_message']);
       }
     } catch (e) {
-      print(e.toString());
-      showSnakeBar(context, e.toString());
+      print("error from addAdddress ${e.toString()}");
     }
   }
 
-  //Get Address
-//   Future<AddressModel> getAddress({
-//     required BuildContext context,
-//   }) async {
-//     final Uri uri = Uri.parse("$url/getAddress");
-//     List<AddressModel> addressModel = [];
-//     try {
-//       SharedPreferences prefs = await SharedPreferences.getInstance();
-//       String authToken = prefs.getString('x-auth-token') ?? '';
-//       http.Response response = await http.get(
-//         uri,
-//         headers: {'Authorization': 'Bearer $authToken'},
-//       );
-//       var data = jsonDecode(response.body);
-//       final addressWithModel = AddressModel.fromJson(data);
-//       if (response.statusCode == 200) {
-//         showSnakeBar(context, data['response_message']);
-//         addressModel.add(data);
-//         print(addressModel.length);
-//       } else {
-//         print(data['response_message']);
-//       }
-//       return addressWithModel;
-//     } catch (e) {
-//       print(e.toString());
-//       throw Exception(e.toString());
-//     }
-//   }
-// }
-
+  // Get Address
   Future<AddressModel> getAddress({
     required BuildContext context,
   }) async {
@@ -87,15 +57,43 @@ class AddressServices {
       var modelData = AddressModel.fromJson(data);
       if (response.statusCode == 200) {
         return modelData;
-        // print(modelData.data![0].firstName);
-        // print(addressModel[0].data![0].id);
       } else {
         print(data['response_message'].toString());
         return modelData;
       }
     } catch (e) {
-      print(e.toString());
+      print("error from getAddress ${e.toString()}");
       throw Exception(e.toString());
+    }
+  }
+
+  // Update Address
+  Future<void> updateAddress({
+    required BuildContext context,
+    required String id,
+    required String firstName,
+    required String lastName,
+    required int mobileNumber,
+    required String fullAddress1,
+    required String country,
+  }) async {
+    final Uri uri = Uri.parse(
+        "$url/updateAddress?id=$id&first_name=$firstName&last_name=$lastName&mobile=$mobileNumber&address_line_1=$fullAddress1&country=$country");
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String authToken = prefs.getString('x-auth-token') ?? '';
+      http.Response response = await http.post(
+        uri,
+        headers: {'Authorization': 'Bearer $authToken'},
+      );
+      var data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        showSnakeBar(context, data['response_message']);
+      } else {
+        print(data['response_message'].toString());
+      }
+    } catch (e) {
+      print("error from updateAddress ${e.toString()}");
     }
   }
 }
@@ -116,7 +114,7 @@ class _MyWidgetState extends State<MyWidget> {
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
-            await services.getAddress(context: context);
+            // await services.updateAddress(context: context);
           },
           child: Text("Jalwa"),
         ),

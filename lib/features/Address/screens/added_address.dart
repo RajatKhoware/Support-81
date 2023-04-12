@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:support__81/common/my_future.dart';
 import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Address/screens/add_address.dart';
+import 'package:support__81/features/Address/screens/edit_address_screen.dart';
 import 'package:support__81/features/Address/services/address_services.dart';
 import '../../../common/button.dart';
 import '../../../common/custom_appbar.dart';
@@ -42,7 +43,19 @@ class AddedAddress extends StatelessWidget {
                         fullAddress:
                             "${data.addressLine1.toString()}, ${data.country.toString()}",
                         mobileNumber: data.mobile.toString(),
-                        onEdit: () {},
+                        onEdit: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return EditAddressScreen(
+                              id: data.id.toString(),
+                              firstName: data.firstName.toString(),
+                              lastName: data.lastName.toString(),
+                              firstAddress: data.addressLine1.toString(),
+                              country: data.country.toString(),
+                              mobileNumber: data.mobile.toString(),
+                            );
+                          }));
+                        },
                         onDelete: () {},
                       );
                     },
