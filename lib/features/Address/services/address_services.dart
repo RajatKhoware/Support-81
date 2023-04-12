@@ -45,7 +45,6 @@ class AddressServices {
     required BuildContext context,
   }) async {
     final Uri uri = Uri.parse("$url/getAddress");
-
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String authToken = prefs.getString('x-auth-token') ?? '';
@@ -95,30 +94,5 @@ class AddressServices {
     } catch (e) {
       print("error from updateAddress ${e.toString()}");
     }
-  }
-}
-
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
-
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
-  AddressServices services = AddressServices();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            // await services.updateAddress(context: context);
-          },
-          child: Text("Jalwa"),
-        ),
-      ),
-    );
   }
 }

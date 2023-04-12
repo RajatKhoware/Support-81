@@ -1,3 +1,4 @@
+import 'package:provider/provider.dart';
 import 'package:support__81/features/About%20us/about_us.dart';
 import 'package:support__81/features/Auth/services/auth_serices.dart';
 import 'package:support__81/features/Bookmark/screens/bookmark_screen.dart';
@@ -7,6 +8,7 @@ import 'package:support__81/features/Contact%20us/screens/contact_us.dart';
 import '../../../common/button.dart';
 import '../../../common/customtext.dart';
 import '../../../common/snakebar.dart';
+import '../../../provider/user_provider.dart';
 import 'drawer_listile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,6 +19,7 @@ class MyDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Drawer(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -62,7 +65,7 @@ class MyDrawer extends StatelessWidget {
                         fontSize: 18.sp,
                       ),
                       CustomText(
-                        text: "Jhone Doe",
+                        text: user.name,
                         color: Theme.of(context).cardColor,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600,

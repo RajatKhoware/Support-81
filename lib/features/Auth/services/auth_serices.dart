@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/snakebar.dart';
-import '../../../models/user.dart';
+import '../../../models/user_model.dart';
 import '../../../provider/user_provider.dart';
 import '../../Home/screens/homescreen.dart';
 
@@ -83,11 +83,8 @@ class AuthServices {
         context: context,
         onSuccess: () async {
           final responseData = json.decode(response.body);
-          // Using User Model to store the data
           final user = User.fromJson(responseData['data']);
-          // Using sharedprefs to store the token locally
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          // Storing the user information in provider
           Provider.of<UserProvider>(context, listen: false).setUser(user);
           await prefs.setString('x-auth-token', responseData['token']);
           print(prefs.getString('x-auth-token'));
@@ -125,11 +122,13 @@ class AuthServices {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
+        final user = User.fromJson(data['data']);
         final String responseMessage = data['response_message'];
         final int responseCode = data['response_code'];
         if (responseMessage == 'Ok' && responseCode == 200) {
           print("Token Verified!");
           print(authToken);
+          Provider.of<UserProvider>(context, listen: false).setUser(user);
           // If token verifed we can move to home dirctly
           Navigator.pushNamedAndRemoveUntil(
             context,

@@ -1,19 +1,19 @@
 
-class SignupResponse {
+class UserModel {
   final String responseMessage;
   final int responseCode;
   final String token;
   final User user;
 
-  SignupResponse({
+  UserModel({
     required this.responseMessage,
     required this.responseCode,
     required this.token,
     required this.user,
   });
 
-  factory SignupResponse.fromJson(Map<String, dynamic> json) {
-    return SignupResponse(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
       responseMessage: json['response_message'] as String,
       responseCode: json['response_code'] as int,
       token: json['token'] as String,

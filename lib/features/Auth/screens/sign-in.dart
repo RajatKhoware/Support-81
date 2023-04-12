@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/customtext.dart';
 import '../../../common/textfield.dart';
-import '../../../models/user.dart';
+import '../../../models/user_model.dart';
 import '../../../provider/user_provider.dart';
 import '../../Home/screens/homescreen.dart';
 import 'sign-up.dart';

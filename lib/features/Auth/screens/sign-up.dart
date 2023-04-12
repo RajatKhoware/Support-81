@@ -11,7 +11,7 @@ import '../../../common/customtext.dart';
 import '../../../constant/colors.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../../models/user.dart';
+import '../../../models/user_model.dart';
 import '../../../provider/user_provider.dart';
 
 class SignUpScreen extends StatefulWidget {

@@ -2,11 +2,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:support__81/common/button.dart';
 import 'package:support__81/common/customtext.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Profile/screens/change_password.dart';
+import 'package:support__81/features/Profile/services/profile_services.dart';
+import 'package:support__81/provider/user_provider.dart';
 import '../widget/profile_textfield.dart';
 
 class EditProfile extends StatefulWidget {
@@ -18,8 +21,35 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  ProfileService profileService = ProfileService();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
+
+  Future<void> updateUserDetails() async {
+    await profileService.updateUserInfo(
+      context: context,
+      name: userNameController.text,
+      email: emailController.text,
+      mobile: mobileController.text,
+    );
+    profileService.getUser(context);
+    userNameController.clear();
+    emailController.clear();
+    mobileController.clear();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    userNameController.dispose();
+    emailController.dispose();
+    mobileController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context, listen: true).user;
     return Scaffold(
       // Appbar
       appBar: AppBar(
@@ -35,7 +65,7 @@ class _EditProfileState extends State<EditProfile> {
         // Profile Picture
         SizedBox(
           width: double.infinity,
-          height: 150.h,
+          height: 170.h,
           child: Stack(
             children: [
               Positioned(
@@ -69,22 +99,29 @@ class _EditProfileState extends State<EditProfile> {
               Positioned(
                 left: 135.w,
                 bottom: 0,
-                child: Container(
-                  width: 120.w,
-                  height: 120.h,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 2.w,
-                      color: Colors.blue,
+                child: Column(
+                  children: [
+                    Container(
+                      width: 140.w,
+                      height: 140.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/Man.png"),
+                          fit: BoxFit.cover,
+                          scale: 1,
+                        ),
+                        color: Colors.white,
+                      ),
                     ),
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/Man.png"),
-                      fit: BoxFit.cover,
-                      scale: 1,
+                    10.vs,
+                    CustomTextPoppines(
+                      text: "Chnage Photo",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 10.sp,
+                      color: AppTheme.greyColor909090,
                     ),
-                    color: Colors.white,
-                  ),
+                  ],
                 ),
               ),
             ],
@@ -100,15 +137,18 @@ class _EditProfileState extends State<EditProfile> {
                   30.vs,
                   ProfileTextField(
                     fieldName: "User Name",
-                    hintText: "John Doe",
+                    hintText: user.name,
+                    controller: userNameController,
                   ),
                   ProfileTextField(
                     fieldName: "Email I'd",
-                    hintText: "youremail@gmail.com",
+                    hintText: user.email,
+                    controller: emailController,
                   ),
                   ProfileTextField(
                     fieldName: "Phone Number",
-                    hintText: "+14955559999",
+                    hintText: user.mobile,
+                    controller: mobileController,
                   ),
                   InkWell(
                     onTap: () => Navigator.pushNamed(
@@ -136,6 +176,7 @@ class _EditProfileState extends State<EditProfile> {
           height: 55.h,
           color: AppTheme.darkRedColor,
           text: "Update",
+          onTap: () => updateUserDetails(),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:provider/provider.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:support__81/common/button.dart';
@@ -12,6 +13,7 @@ import 'package:support__81/features/Payment/screens/added_cards.dart';
 import 'package:support__81/features/Profile/screens/edit_profile.dart';
 import '../../../common/custom_appbar.dart';
 import '../../../common/customtext.dart';
+import '../../../provider/user_provider.dart';
 import '../widget/profile_card.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -22,6 +24,7 @@ class ProfileScreen extends StatelessWidget {
     return ScreenUtilInit(
         designSize: const Size(393, 781),
         builder: (context, child) {
+          final user = Provider.of<UserProvider>(context).user;
           return Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(60.h),
@@ -53,14 +56,14 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomTextInter(
-                                text: "John Doe",
+                                text: user.name,
                                 fontSize: 20.sp,
                                 color: Theme.of(context).primaryColorLight,
                                 fontWeight: FontWeight.bold,
                               ),
                               SizedBox(height: 5.h),
                               CustomTextInter(
-                                text: "bruno203@gmail.com",
+                                text: user.email,
                                 fontSize: 14.sp,
                                 color: AppTheme.greyColor909090,
                               ),

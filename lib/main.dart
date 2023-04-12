@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/constant/app_theme.dart';
-import 'package:support__81/features/Address/screens/added_address.dart';
-import 'package:support__81/features/Address/screens/edit_address_screen.dart';
-import 'package:support__81/features/Address/services/address_services.dart';
 import 'package:support__81/features/Auth/screens/sign-in.dart';
 import 'package:support__81/features/Auth/screens/sign-up.dart';
 import 'package:support__81/features/Cart/screen/my_cart.dart';
@@ -94,7 +91,7 @@ class _MyAppState extends State<MyApp> {
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
-        home: const AddedAddress(),
+        home: const SplashScreen(),
         onGenerateRoute: (settings) => generateRoute(settings),
         // Routes
         routes: {
