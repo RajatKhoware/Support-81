@@ -162,9 +162,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   getCart();
                   Navigator.pushNamed(context, "/my-cart");
-                  print(MediaQuery.of(context).size.height);
-                  print(MediaQuery.of(context).size.width);
-                  print("hello");
                 },
                 child: Icon(
                   CupertinoIcons.bag_fill,

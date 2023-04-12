@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:support__81/common/my_future.dart';
 import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Address/screens/add_address.dart';
+import 'package:support__81/features/Address/services/address_services.dart';
 import '../../../common/button.dart';
 import '../../../common/custom_appbar.dart';
 import '../../../constant/app_theme.dart';
@@ -13,6 +15,7 @@ class AddedAddress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AddressServices addressServices = AddressServices();
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(55.h),
@@ -22,15 +25,32 @@ class AddedAddress extends StatelessWidget {
             isCenterTitle: false,
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
-          child: Column(
-            children: [
-              Address_Cards_Widget(),
-              20.vs,
-              Address_Cards_Widget(),
-            ],
-          ),
+        body: MyFutureBuilder(
+          future: addressServices.getAddress(context: context),
+          builder: (context, data) {
+            final addressList = data.data;
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: addressList!.length,
+                    itemBuilder: (context, index) {
+                      final data = addressList[index];
+                      return Address_Cards_Widget(
+                        fullName:
+                            "${data.firstName.toString()} ${data.lastName.toString()}",
+                        fullAddress:
+                            "${data.addressLine1.toString()}, ${data.country.toString()}",
+                        mobileNumber: data.mobile.toString(),
+                        onEdit: () {},
+                        onDelete: () {},
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          },
         ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(

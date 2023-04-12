@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:support__81/common/customtext.dart';
 import 'package:support__81/common/snakebar.dart';
 import 'package:http/http.dart' as http;
 import 'package:support__81/constant/colors.dart';
+import 'package:support__81/extensions.dart';
+import 'package:support__81/features/Address/model/addressmodel.dart';
 
 class AddressServices {
   //AddAddress
@@ -38,24 +42,85 @@ class AddressServices {
   }
 
   //Get Address
-  Future getAddress({required BuildContext context}) async {
+//   Future<AddressModel> getAddress({
+//     required BuildContext context,
+//   }) async {
+//     final Uri uri = Uri.parse("$url/getAddress");
+//     List<AddressModel> addressModel = [];
+//     try {
+//       SharedPreferences prefs = await SharedPreferences.getInstance();
+//       String authToken = prefs.getString('x-auth-token') ?? '';
+//       http.Response response = await http.get(
+//         uri,
+//         headers: {'Authorization': 'Bearer $authToken'},
+//       );
+//       var data = jsonDecode(response.body);
+//       final addressWithModel = AddressModel.fromJson(data);
+//       if (response.statusCode == 200) {
+//         showSnakeBar(context, data['response_message']);
+//         addressModel.add(data);
+//         print(addressModel.length);
+//       } else {
+//         print(data['response_message']);
+//       }
+//       return addressWithModel;
+//     } catch (e) {
+//       print(e.toString());
+//       throw Exception(e.toString());
+//     }
+//   }
+// }
+
+  Future<AddressModel> getAddress({
+    required BuildContext context,
+  }) async {
     final Uri uri = Uri.parse("$url/getAddress");
+
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String authToken = prefs.getString('x-auth-token') ?? '';
-      http.Response response = await http.post(
+      http.Response response = await http.get(
         uri,
         headers: {'Authorization': 'Bearer $authToken'},
       );
       var data = jsonDecode(response.body);
+      var modelData = AddressModel.fromJson(data);
       if (response.statusCode == 200) {
-        showSnakeBar(context, data['response_message']);
+        return modelData;
+        // print(modelData.data![0].firstName);
+        // print(addressModel[0].data![0].id);
       } else {
-        print(data['response_message']);
+        print(data['response_message'].toString());
+        return modelData;
       }
     } catch (e) {
       print(e.toString());
-      showSnakeBar(context, e.toString());
+      throw Exception(e.toString());
     }
+  }
+}
+
+class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  AddressServices services = AddressServices();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            await services.getAddress(context: context);
+          },
+          child: Text("Jalwa"),
+        ),
+      ),
+    );
   }
 }
