@@ -50,6 +50,18 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context, listen: true).user;
+    if (userNameController.text.isEmpty) {
+      userNameController.text = user.name;
+    }
+    ;
+    if (emailController.text.isEmpty) {
+      emailController.text = user.email;
+    }
+    ;
+    if (mobileController.text.isEmpty) {
+      mobileController.text = user.mobile;
+    }
+    ;
     return Scaffold(
       // Appbar
       appBar: AppBar(

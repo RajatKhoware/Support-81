@@ -15,11 +15,12 @@ class ProfileService {
   // Update Profile
   Future<void> updateUserInfo({
     required BuildContext context,
-    required String? name,
-    String? email,
-    String? mobile,
+    required String name,
+    required String email,
+    required String mobile,
   }) async {
-    final Uri uri = Uri.parse("$url/updateProfile?name=$name");
+    final Uri uri =
+        Uri.parse("$url/updateProfile?name=$name&email=$email&mobile=$mobile");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String authToken = prefs.getString('x-auth-token') ?? '';
     Map<String, String> headers = {
@@ -70,27 +71,27 @@ class ProfileService {
   }
 }
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+// class MyWidget extends StatefulWidget {
+//   const MyWidget({super.key});
 
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
+//   @override
+//   State<MyWidget> createState() => _MyWidgetState();
+// }
 
-class _MyWidgetState extends State<MyWidget> {
-  ProfileService services = ProfileService();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            await services.updateUserInfo(context: context, name: "Rajat Titu");
-            services.getUser(context);
-          },
-          child: Text("Jalwa"),
-        ),
-      ),
-    );
-  }
-}
+// class _MyWidgetState extends State<MyWidget> {
+//   ProfileService services = ProfileService();
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: ElevatedButton(
+//           onPressed: () async {
+//             await services.updateUserInfo(context: context, name: "Rajat Titu");
+//             services.getUser(context);
+//           },
+//           child: Text("Jalwa"),
+//         ),
+//       ),
+//     );
+//   }
+// }
