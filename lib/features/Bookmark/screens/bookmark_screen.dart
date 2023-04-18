@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:flutter/cupertino.dart';
 import 'package:support__81/provider/bookmark_provider.dart';
 import 'package:flutter/material.dart';
@@ -73,13 +73,13 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
             actions: [
               Padding(
                 padding: EdgeInsets.only(top: 14.h),
-                child: Badge(
-                  position: BadgePosition.topEnd(end: 0.0),
+                child: badge.Badge(
+                  position: badge.BadgePosition.topEnd(end: 0.0),
                   badgeContent: CustomTextPoppines(
                     text: cartProductLeng.toString(),
                     fontSize: 10.sp,
                   ),
-                  badgeStyle: BadgeStyle(
+                  badgeStyle:badge.BadgeStyle(
                     elevation: 0.0,
                     badgeColor: Colors.red,
                     padding: EdgeInsets.all(4.0),
