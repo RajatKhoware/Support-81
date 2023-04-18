@@ -16,12 +16,12 @@ class AddressServices {
     required BuildContext context,
     required String firstName,
     required String lastName,
-    required int mobileNumber,
+    required String mobileNumber,
     required String fullAddress1,
     required String country,
   }) async {
-    final Uri uri = Uri.parse(
-        "$url/addAddress?first_name=$firstName&last_name=$lastName&mobile=$mobileNumber&address_line_1=$fullAddress1&country=$country");
+    final uri = Uri.parse(
+        "http://quantumit.online/81support/api/addAddress?first_name=$firstName&last_name=$lastName&mobile=$mobileNumber&address_line_1=$fullAddress1&country=$country");
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String authToken = prefs.getString('x-auth-token') ?? '';
@@ -30,6 +30,7 @@ class AddressServices {
         headers: {'Authorization': 'Bearer $authToken'},
       );
       var data = jsonDecode(response.body);
+      print(data);
       if (response.statusCode == 200) {
         showSnakeBar(context, data['response_message']);
       } else {
@@ -53,6 +54,7 @@ class AddressServices {
         headers: {'Authorization': 'Bearer $authToken'},
       );
       var data = jsonDecode(response.body);
+
       var modelData = AddressModel.fromJson(data);
       if (response.statusCode == 200) {
         return modelData;

@@ -42,7 +42,7 @@ class _AddAddressState extends State<AddAddress> {
       context: context,
       firstName: firstAddressController.text,
       lastName: lastNameController.text,
-      mobileNumber: int.parse(mobileNumberController.text),
+      mobileNumber: mobileNumberController.text,
       fullAddress1: firstAddressController.text,
       country: selectedCountry.toString(),
     );
