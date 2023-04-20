@@ -230,49 +230,50 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MyFutureBuilder(
-                      future: addBookmark(),
-                      builder: (context, data) {
-                        return Container(
-                          width: 56.w,
-                          height: 56.h,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: isProductBookmarked
-                                  ? AppTheme.whiteColorFFFFFF
-                                  : Theme.of(context).buttonColor),
-                          child: IconButton(
-                            onPressed: () {
-                              isProductBookmarked
-                                  ? {
-                                      showSnakeBar(
-                                        context,
-                                        data.responseMessage.toString(),
-                                      ),
-                                      Navigator.pushNamed(
-                                        context,
-                                        BookMarkScreen.routeName,
-                                      ),
-                                    }
-                                  : {
-                                      addBookmark(),
-                                      showSnakeBar(
-                                        context,
-                                        data.responseMessage.toString(),
-                                      ),
-                                    };
-                              fetchBookmarkProducts();
-                            },
-                            icon: Icon(
-                              CupertinoIcons.heart_fill,
-                              color: isProductBookmarked
-                                  ? AppTheme.redPrimaryColor
-                                  : AppTheme.greyColor909090,
-                              size: 28.sp,
-                            ),
-                          ),
-                        );
-                      }),
+                  // MyFutureBuilder(
+                  //     future: addBookmark(),
+                  //     builder: (context, data) {
+                  //       return Container(
+                  //         width: 56.w,
+                  //         height: 56.h,
+                  //         decoration: BoxDecoration(
+                  //             shape: BoxShape.circle,
+                  //             color: isProductBookmarked
+                  //                 ? AppTheme.whiteColorFFFFFF
+                  //                 : Theme.of(context).buttonColor),
+                  //         child: IconButton(
+                  //           onPressed: () {
+                  //             isProductBookmarked
+                  //                 ? {
+                  //                     showSnakeBar(
+                  //                       context,
+                  //                       data.responseMessage.toString(),
+                  //                     ),
+                  //                     Navigator.pushNamed(
+                  //                       context,
+                  //                       BookMarkScreen.routeName,
+                  //                     ),
+                  //                   }
+                  //                 : {
+                  //                     addBookmark(),
+                  //                     showSnakeBar(
+                  //                       context,
+                  //                       data.responseMessage.toString(),
+                  //                     ),
+                  //                   };
+                  //             fetchBookmarkProducts();
+                  //           },
+                  //           icon: Icon(
+                  //             CupertinoIcons.heart_fill,
+                  //             color: isProductBookmarked
+                  //                 ? AppTheme.redPrimaryColor
+                  //                 : AppTheme.greyColor909090,
+                  //             size: 28.sp,
+                  //           ),
+                  //         ),
+                  //       );
+                  //     }),
+
                   CustomButton(
                     width: 280.w,
                     height: 56.h,

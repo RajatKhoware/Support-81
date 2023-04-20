@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:badges/badges.dart'as badge;
+import 'package:badges/badges.dart' as badge;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/common/app_list.dart';
@@ -177,16 +177,11 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Column(children: [
-          InkWell(
-            onTap: () {},
-            child: SizedBox(height: 10.h),
-          ),
+          10.vs,
           //Tab bar
           tabBar(),
           //TabBar view
-          Expanded(
-            child: AppLists.tabScreens[currentIndex],
-          ),
+          Expanded(child: AppLists.tabScreens[currentIndex]),
         ]),
       ),
       // floatingActionButton: const FloadtingActionButton(),

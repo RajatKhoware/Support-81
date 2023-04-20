@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Home/services/home_service.dart';
 import 'package:flutter/material.dart';
 import 'package:support__81/features/Offers%20&%20Deals/widget/product_tile.dart';
@@ -24,7 +25,7 @@ class _CustomGridViewState extends State<CustomGridView> {
     return FutureBuilder(
       future: HomeServices().fetchProducts(
         pageNo: _currentPage,
-        shopNo: 7,
+        shopNo: 3,
       ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -51,7 +52,9 @@ class _CustomGridViewState extends State<CustomGridView> {
                     final product = productsInfo.data![index];
                     return ProductsTile(
                       isOfferProducts: widget.isOfferProducts,
-                      productImg: product.images![0],
+                      productImg: product.images!.isEmpty
+                          ? "https://cdn.shopify.com/s/files/1/0265/1435/8377/products/vans-old-skool-ideas-that-connect-custom-621721.jpg?v=1625258141&width=2048"
+                          : product.images!.first,
                       productName: product.productName!.toString(),
                       productPrice: product.price!.toString(),
                       productId: product.id!.toDouble(),
@@ -59,13 +62,13 @@ class _CustomGridViewState extends State<CustomGridView> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              10.vs,
               // Pagination
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Pervious page Button
-                  if (snapshot.data!.products!.currentPage! < 1)
+                  if (snapshot.data!.products!.currentPage! > 1)
                     InkWell(
                       onTap: () {
                         setState(() {
@@ -103,7 +106,8 @@ class _CustomGridViewState extends State<CustomGridView> {
                       ),
                     ),
                 ],
-              )
+              ),
+              10.vs,
             ],
           );
         } else if (snapshot.hasError) {
