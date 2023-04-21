@@ -15,8 +15,8 @@ class ProductDetailsServices {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String authToken = prefs.getString('x-auth-token') ?? '';
-      final response = await http.get(
-        Uri.parse('$url/getProduct?productId=$productId'),
+      final response = await http.post(
+        Uri.parse('$url/ProductDetails?productId=$productId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $authToken'
@@ -25,9 +25,11 @@ class ProductDetailsServices {
       var data = jsonDecode(response.body);
       if (response.statusCode == 200) {
         var product = ProductDetailsModel.fromJson(data);
+        print(product.product!.currentColor!.color);
         return product;
       } else {
-        return ProductDetailsModel.fromJson(data);
+        throw Exception('Failed to load product');
+        // return ProductDetailsModel.fromJson(data);
       }
     } catch (e) {
       print(e.toString());

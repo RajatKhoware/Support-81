@@ -1,25 +1,25 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:support__81/extensions.dart';
-import 'package:support__81/features/Rating%20&%20Review/screens/rate_review_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:support__81/constant/app_theme.dart';
-
+import 'package:support__81/extensions.dart';
+import 'package:support__81/features/Rating%20&%20Review/screens/rate_review_screen.dart';
+import 'package:support__81/models/product_details_model.dart';
 import '../../../common/customtext.dart';
-import '../../../common/quanity_inn_dec_button.dart';
 
 class ProductDetaileColumn extends StatefulWidget {
   final String? productPrice;
   final double productId;
   final double avgRating;
+  final List<Sizes>? productSizes;
 
   const ProductDetaileColumn({
     Key? key,
     this.productPrice = "\$ 25",
     required this.productId,
     required this.avgRating,
+    required this.productSizes,
   }) : super(key: key);
 
   @override
@@ -29,9 +29,11 @@ class ProductDetaileColumn extends StatefulWidget {
 class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
   int initialQunaity = 1;
   var currentIndex = 0;
-  final List<String> productSize = ["XS", "S", "M", "L", "XL"];
+
   @override
   Widget build(BuildContext context) {
+    final quantityAtCI =
+        int.parse(widget.productSizes![currentIndex].quantity!);
     return Column(
       children: [
         // Product Name
@@ -42,7 +44,7 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
           color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.normal,
         ),
-        SizedBox(height: 8.h),
+      8.vs,
         //Rate and Reviews
         InkWell(
           onTap: () {
@@ -58,7 +60,7 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
                 Icons.star,
                 color: Color.fromARGB(255, 255, 209, 59),
               ),
-              SizedBox(width: 5.w),
+              5.hs,
               CustomTextPoppines(
                 text: "4.5",
                 //text: avgRating.toString(),
@@ -66,7 +68,7 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.w600,
               ),
-              SizedBox(width: 16.w),
+            16.hs,
               CustomTextPoppines(
                 text: "(50 reviews)",
                 fontSize: 14.sp,
@@ -76,13 +78,13 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
             ],
           ),
         ),
-        10.vs,
+        15.vs,
         // Select size
         SizedBox(
-          height: 38.h,
+          height: quantityAtCI <= 15 ? 65.h : 40.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: productSize.length,
+            itemCount: widget.productSizes!.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
@@ -90,24 +92,37 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
                     currentIndex = index;
                   });
                 },
-                child: Padding(
-                  padding: EdgeInsets.only(left: 8.w),
-                  child: Container(
-                    width: 42.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24.r),
-                      color: currentIndex == index
-                          ? AppTheme.darkRedColor
-                          : AppTheme.greyColor2B2B2B,
-                    ),
-                    child: Center(
-                      child: CustomTextPoppines(
-                        text: productSize[index],
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
+                child: Column(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                      margin: EdgeInsets.only(right: 8.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24.r),
+                        color: currentIndex == index
+                            ? AppTheme.darkRedColor
+                            : AppTheme.greyColor2B2B2B,
+                      ),
+                      child: Center(
+                        child: CustomTextPoppines(
+                          text: widget.productSizes![index].initial.toString(),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                  ),
+                    if (quantityAtCI <= 15) 10.vs,
+                    if (int.parse(widget.productSizes![index].quantity!) <= 15)
+                      Visibility(
+                        visible: currentIndex == index,
+                        child: CustomText(
+                          text: "${widget.productSizes![index].quantity} left",
+                          color: AppTheme.redPrimaryColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                  ],
                 ),
               );
             },

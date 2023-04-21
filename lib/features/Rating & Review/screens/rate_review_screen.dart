@@ -52,7 +52,7 @@ class _RateAndReviewScreenState extends State<RateAndReviewScreen> {
             context: context,
           ),
           builder: (context, data) {
-            final product = data.data!;
+            final product = data.product!;
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
               child: Column(
