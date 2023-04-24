@@ -10,13 +10,17 @@ import '../../../constant/colors.dart';
 class ProductDetailsServices {
   Future<ProductDetailsModel> getProductDetails({
     required double productId,
+    double? colorId,
     required BuildContext context,
   }) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String authToken = prefs.getString('x-auth-token') ?? '';
+      final uri = colorId != null
+          ? '$url/ProductDetails?productId=$productId&color=$colorId'
+          : '$url/ProductDetails?productId=$productId&';
       final response = await http.post(
-        Uri.parse('$url/ProductDetails?productId=$productId'),
+        Uri.parse(uri),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $authToken'
@@ -25,7 +29,6 @@ class ProductDetailsServices {
       var data = jsonDecode(response.body);
       if (response.statusCode == 200) {
         var product = ProductDetailsModel.fromJson(data);
-        print(product.product!.currentColor!.color);
         return product;
       } else {
         throw Exception('Failed to load product');

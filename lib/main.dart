@@ -17,7 +17,7 @@ import 'package:support__81/features/Order/screen/order_placed.dart';
 import 'package:support__81/features/Profile/screens/profile_screen.dart';
 import 'package:support__81/features/Splash/screen/splashscreen.dart';
 import 'package:support__81/notificationservice/local_notification_service.dart';
-import 'package:support__81/provider/bookmark_provider.dart';
+import 'package:support__81/features/Bookmark/provider/bookmark_provider.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import 'package:support__81/provider/user_provider.dart';
 import 'package:support__81/router.dart';
@@ -65,8 +65,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // getCart();
-    // fetchBookmarkProducts();
+    getCart();
+    fetchBookmarkProducts();
     LocalNotificationService.initialize(context);
   }
 

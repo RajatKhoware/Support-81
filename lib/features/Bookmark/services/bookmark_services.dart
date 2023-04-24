@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:support__81/models/add_bookmark_model.dart';
 import 'package:support__81/models/get_bookmarked_product_model.dart';
-import 'package:support__81/provider/bookmark_provider.dart';
+import 'package:support__81/features/Bookmark/provider/bookmark_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +14,7 @@ class BookmarkServices {
   // Add Product to Bookmark
   Future<AddBookmarkModel> addBookmarks({
     required String productId,
+    required double colorId,
     required BuildContext context,
   }) async {
     try {
@@ -23,19 +24,22 @@ class BookmarkServices {
         Uri.parse("$url/bookmarkProduct"),
         body: {
           "productId": productId,
+          "color": colorId.toString(),
         },
         headers: {'Authorization': 'Bearer $authToken'},
       );
       final data = jsonDecode(response.body);
-      //print(data);
       if (response.statusCode == 200) {
+        return AddBookmarkModel.fromJson(data);
+      } else if (response.statusCode == 200) {
         return AddBookmarkModel.fromJson(data);
       } else {
         return AddBookmarkModel.fromJson(data);
       }
     } catch (e) {
       showSnakeBar(context, e.toString());
-      throw Exception('Failed to load product details');
+      print(e.toString());
+      throw Exception('Failed get Bookmark');
     }
   }
 

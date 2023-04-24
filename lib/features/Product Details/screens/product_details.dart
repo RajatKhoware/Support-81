@@ -12,8 +12,14 @@ import 'package:support__81/features/Bookmark/services/bookmark_services.dart';
 import 'package:support__81/features/Cart/services/cart_services.dart';
 import 'package:support__81/features/Product%20Details/services/product_details_services.dart';
 import 'package:support__81/features/Product%20Details/widget/expanded_desc.dart';
-import '../../../provider/bookmark_provider.dart';
+import 'package:support__81/models/product_details_model.dart';
+import '../../../common/my_future.dart';
+import '../../../common/snakebar.dart';
+import '../../Bookmark/provider/bookmark_provider.dart';
 import '../../../provider/cart_provider.dart';
+import '../../Bookmark/screens/bookmark_screen.dart';
+import '../widget/product_carsoule_imgs.dart';
+import '../widget/product_color_picker.dart';
 import '../widget/product_detaile_column.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -35,62 +41,51 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   bool isProductBookmarked = false;
   bool isProductPresentInCart = false;
   var currentColor = 0;
+  double currentColorId = -1;
 
-  // Bookmark
+  @override
+  void initState() {
+    fetchBookmarkProducts();
+    getCart();
+    super.initState();
+  }
+
+  // Add to Bookmark
   Future addBookmark() {
     return _bookmarkServices.addBookmarks(
       productId: widget.productId.toString(),
+      colorId: currentColorId,
       context: context,
     );
   }
 
-  // Add to cart
-  void addToCart() async {
-    await _cartServices.addToCartWithQunatity(
-      context: context,
-      quantity: 1,
-      productId: widget.productId,
-    );
-  }
-
-  // Get Product Details
-  Future productDetails() {
-    return _detailsServices.getProductDetails(
-      productId: widget.productId,
-      context: context,
-    );
+  // Get Bookmark Products
+  void fetchBookmarkProducts() {
+    _bookmarkServices.getBookmarkedProducts(context: context);
   }
 
   // Get cart
   void getCart() {
     _cartServices.getCart(context);
-    setState(() {});
-  }
-
-  // Get Bookmark
-  void fetchBookmarkProducts() {
-    _bookmarkServices.getBookmarkedProducts(context: context);
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.watch<CartProvider>().cart;
+    final cart = context.watch<CartProvider>();
     final bookmark = context.watch<BookmarkedProvider>().products;
 
     // Checking if the product present in the cart or not
-    if (cart.data != null) {
-      for (var i = 0; i < cart.data!.length; i++) {
-        if (cart.data![i].addedProduct!.id == widget.productId) {
+    if (cart.cart.data != null) {
+      for (var i = 0; i < cart.cart.data!.length; i++) {
+        if (cart.cart.data![i].addedProduct!.id == widget.productId) {
           setState(() {
             isProductPresentInCart = true;
           });
         }
       }
     }
-
     // Checking if the product present in the bookmark list or not
-    if (bookmark.isNotEmpty) {
+    if (bookmark.length > 0) {
       for (var i = 0; i < bookmark.length; i++) {
         if (bookmark[i].addedProduct!.id == widget.productId) {
           setState(() {
@@ -104,23 +99,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       body: FutureBuilder(
         future: _detailsServices.getProductDetails(
           productId: widget.productId,
+          colorId: currentColorId == -1 ? null : currentColorId,
           context: context,
         ),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final product = snapshot.data!.product!;
+            currentColorId =
+                double.parse(product.currentColor!.color.toString());
             return CustomScrollView(
               slivers: [
                 // Appbar
-                SliverAppBar(
-                  expandedHeight: 340.h,
-                  backgroundColor: Colors.transparent,
-                  pinned: true,
-                  centerTitle: false,
-                  automaticallyImplyLeading: false,
-                  flexibleSpace: ProductImg_widget(images: product.image!),
-                  title: _buildBackButton(),
-                ),
+                _buildAppBar(product),
                 // Product Details
                 SliverToBoxAdapter(
                   child: Container(
@@ -128,40 +118,36 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       horizontal: 15.w,
                       vertical: 5.h,
                     ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.r),
-                        topRight: Radius.circular(20.r),
-                      ),
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     child: Column(
                       children: [
-                        Padding(
+                        Container(
                           padding: EdgeInsets.symmetric(horizontal: 110.w),
-                          child: Container(
-                            height: 25.h,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: product.availableColors!.length,
-                                itemBuilder: (context, index) {
-                                  final Color productColors = Color(
-                                    int.parse(
-                                        "0xFF${product.availableColors![index].hex}"),
-                                  );
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        currentColor = index;
-                                      });
-                                    },
-                                    child: ColorPicker(
-                                      outerBorder: currentColor == index,
-                                      color: productColors,
-                                    ),
-                                  );
-                                }),
-                          ),
+                          height: 25.h,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: product.availableColors!.length,
+                              itemBuilder: (context, index) {
+                                AvailableColors availableColors =
+                                    product.availableColors![index];
+                                final Color productColors = Color(
+                                  int.parse("0xFF${availableColors.hex}"),
+                                );
+                                double colorId = double.parse(
+                                    availableColors.color.toString());
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      currentColor = index;
+                                      currentColorId = colorId;
+                                    });
+                                  },
+                                  child: ProductColorPicker(
+                                    outerBorder: currentColor == index,
+                                    color: productColors,
+                                  ),
+                                );
+                              }),
                         ),
                         20.vs,
                         ProductDetaileColumn(
@@ -181,7 +167,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               ],
             );
           } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
+            return Center(child: Text(snapshot.error.toString()));
           } else {
             return Center(child: CircularProgressIndicator());
           }
@@ -197,49 +183,44 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // MyFutureBuilder(
-              //     future: addBookmark(),
-              //     builder: (context, data) {
-              //       return Container(
-              //         width: 56.w,
-              //         height: 56.h,
-              //         decoration: BoxDecoration(
-              //             shape: BoxShape.circle,
-              //             color: isProductBookmarked
-              //                 ? AppTheme.whiteColorFFFFFF
-              //                 : Theme.of(context).buttonColor),
-              //         child: IconButton(
-              //           onPressed: () {
-              //             isProductBookmarked
-              //                 ? {
-              //                     showSnakeBar(
-              //                       context,
-              //                       data.responseMessage.toString(),
-              //                     ),
-              //                     Navigator.pushNamed(
-              //                       context,
-              //                       BookMarkScreen.routeName,
-              //                     ),
-              //                   }
-              //                 : {
-              //                     addBookmark(),
-              //                     showSnakeBar(
-              //                       context,
-              //                       data.responseMessage.toString(),
-              //                     ),
-              //                   };
-              //             fetchBookmarkProducts();
-              //           },
-              //           icon: Icon(
-              //             CupertinoIcons.heart_fill,
-              //             color: isProductBookmarked
-              //                 ? AppTheme.redPrimaryColor
-              //                 : AppTheme.greyColor909090,
-              //             size: 28.sp,
-              //           ),
-              //         ),
-              //       );
-              //     }),
+              MyFutureBuilder(
+                  future: addBookmark(),
+                  builder: (context, data) {
+                    return Container(
+                      width: 56.w,
+                      height: 56.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isProductBookmarked
+                            ? AppTheme.whiteColorFFFFFF
+                            : Theme.of(context).buttonColor,
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          isProductBookmarked
+                              ? Navigator.pushNamed(
+                                  context,
+                                  BookMarkScreen.routeName,
+                                )
+                              : {
+                                  addBookmark(),
+                                  showSnakeBar(
+                                    context,
+                                    data.responseMessage.toString(),
+                                  ),
+                                };
+                          fetchBookmarkProducts();
+                        },
+                        icon: Icon(
+                          CupertinoIcons.heart_fill,
+                          color: isProductBookmarked
+                              ? AppTheme.redPrimaryColor
+                              : AppTheme.greyColor909090,
+                          size: 28.sp,
+                        ),
+                      ),
+                    );
+                  }),
               CustomButton(
                 width: 280.w,
                 height: 56.h,
@@ -254,9 +235,22 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     : AppTheme.whiteColorFFFFFF,
                 onTap: () {
                   isProductPresentInCart
-                      ? Navigator.pushNamed(context, "/my-cart")
-                      : addToCart();
-                  getCart();
+                      ? {
+                          Navigator.pushNamed(context, "/my-cart"),
+                          getCart(),
+                        }
+                      : {
+                          _cartServices.addToCartWithQunatity(
+                            context: context,
+                            quantity: cart.initalQuantity.toDouble(),
+                            productId: widget.productId,
+                            colorId: currentColorId,
+                            size: (1 + cart.productSize).toDouble(),
+                          ),
+                          isProductPresentInCart = true,
+                          setState(() {}),
+                          cart.setInitalQuantity(),
+                        };
                 },
               ),
             ],
@@ -266,7 +260,20 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
+  Widget _buildAppBar(Product product) {
+    return SliverAppBar(
+      expandedHeight: 340.h,
+      backgroundColor: Colors.transparent,
+      pinned: true,
+      centerTitle: false,
+      automaticallyImplyLeading: false,
+      flexibleSpace: ProductCarsouleImgs(images: product.image!),
+      title: _buildBackButton(),
+    );
+  }
+
   Widget _buildBackButton() {
+    final cart = context.watch<CartProvider>();
     return Container(
       width: 40.w,
       height: 40.h,
@@ -282,136 +289,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         ],
       ),
       child: IconButton(
-        onPressed: () => Navigator.pop(context),
+        onPressed: () {
+          cart.setInitalQuantity();
+          Navigator.pop(context);
+        },
         icon: Icon(
           CupertinoIcons.back,
           color: Theme.of(context).primaryColor,
           size: 20.sp,
         ),
       ),
-    );
-  }
-}
-
-class ColorPicker extends StatelessWidget {
-  final bool outerBorder;
-  final Color color;
-  const ColorPicker({
-    Key? key,
-    required this.outerBorder,
-    required this.color,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 8.w),
-      child: Container(
-        padding: EdgeInsets.all(1),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: outerBorder
-              ? Border.all(
-                  width: 3.w,
-                  color: Colors.white,
-                )
-              : null,
-        ),
-        child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProductImg_widget extends StatefulWidget {
-  final List images;
-  const ProductImg_widget({
-    Key? key,
-    required this.images,
-  }) : super(key: key);
-
-  @override
-  State<ProductImg_widget> createState() => _ProductImg_widgetState();
-}
-
-class _ProductImg_widgetState extends State<ProductImg_widget> {
-  CarouselController _controller = CarouselController();
-  int _currentPage = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          child: CarouselSlider(
-            carouselController: _controller,
-            options: CarouselOptions(
-              height: double.infinity,
-              viewportFraction: 1,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
-            ),
-            items: widget.images
-                .map(
-                  (e) => Builder(
-                    builder: (context) => Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(e),
-                          // fit: BoxFit.cover,
-                        ),
-                        //color: Colors.black,
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-        Positioned(
-          bottom: 10.h,
-          left: 160.w,
-          child: Row(
-            children: widget.images
-                .asMap()
-                .entries
-                .map(
-                  (e) => InkWell(
-                    onTap: () {
-                      _controller.animateToPage(e.key);
-                    },
-                    child: widget.images.length > 1
-                        ? Container(
-                            margin: EdgeInsets.symmetric(horizontal: 2.w),
-                            width: _currentPage == e.key ? 25.w : 6.w,
-                            height: _currentPage == e.key ? 6.h : 6.h,
-                            decoration: BoxDecoration(
-                              borderRadius: _currentPage == e.key
-                                  ? BorderRadius.circular(20.r)
-                                  : null,
-                              shape: _currentPage == e.key
-                                  ? BoxShape.rectangle
-                                  : BoxShape.circle,
-                              color: Colors.white.withOpacity(
-                                _currentPage == e.key ? 0.9 : 0.4,
-                              ),
-                            ),
-                          )
-                        : SizedBox(),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-      ],
     );
   }
 }

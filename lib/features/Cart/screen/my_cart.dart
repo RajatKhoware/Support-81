@@ -21,10 +21,10 @@ class MyCart extends StatefulWidget {
 class _MyCartState extends State<MyCart> {
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartProvider>(context, listen: true).cart;
+    final cart = Provider.of<CartProvider>(context, listen: true);
 
     int sum = 0;
-    cart.data?.forEach((e) {
+    cart.cart.data?.forEach((e) {
       final quantity = int.tryParse(e.quantity ?? '0');
       final price = int.tryParse(e.addedProduct?.price ?? '0');
       sum += (quantity! * price!);
@@ -46,7 +46,7 @@ class _MyCartState extends State<MyCart> {
               padding: EdgeInsets.all(10.w.h),
               child: Column(
                 children: [
-                  if (cart.data == null)
+                  if (cart.cart.data == null)
                     Expanded(
                       child: Center(
                         child: Column(
@@ -75,7 +75,7 @@ class _MyCartState extends State<MyCart> {
                     Expanded(
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
-                        itemCount: cart.data?.length,
+                        itemCount: cart.cart.data?.length,
                         itemBuilder: (context, index) {
                           return CartProductTile(
                             index: index,
@@ -92,7 +92,7 @@ class _MyCartState extends State<MyCart> {
                         //Promo-code Field
                         SizedBox(height: 18.h),
                         //Cart Total
-                        if (cart.data != null)
+                        if (cart.cart.data != null)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -119,11 +119,11 @@ class _MyCartState extends State<MyCart> {
                           height: 50.h,
                           color: GloabalVariables.buttonRed,
                           text:
-                              cart.data == null ? "Go Shopping!" : "Check out",
+                              cart.cart.data == null ? "Go Shopping!" : "Check out",
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           onTap: () {
-                            cart.data == null
+                            cart.cart.data == null
                                 ? Navigator.pushNamed(context, "/home")
                                 : Navigator.pushNamed(context, "/check-out");
                           },

@@ -2,11 +2,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Rating%20&%20Review/screens/rate_review_screen.dart';
 import 'package:support__81/models/product_details_model.dart';
 import '../../../common/customtext.dart';
+import '../../../provider/cart_provider.dart';
 
 class ProductDetaileColumn extends StatefulWidget {
   final String? productPrice;
@@ -27,13 +29,11 @@ class ProductDetaileColumn extends StatefulWidget {
 }
 
 class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
-  int initialQunaity = 1;
-  var currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
+    final cart = context.watch<CartProvider>();
     final quantityAtCI =
-        int.parse(widget.productSizes![currentIndex].quantity!);
+        int.parse(widget.productSizes![cart.productSize].quantity!);
     return Column(
       children: [
         // Product Name
@@ -44,7 +44,7 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
           color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.normal,
         ),
-      8.vs,
+        8.vs,
         //Rate and Reviews
         InkWell(
           onTap: () {
@@ -68,7 +68,7 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.w600,
               ),
-            16.hs,
+              16.hs,
               CustomTextPoppines(
                 text: "(50 reviews)",
                 fontSize: 14.sp,
@@ -88,9 +88,9 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    currentIndex = index;
-                  });
+                  cart.setProductSize(index);
+                  print(cart.productSize);
+                  cart.setInitalQuantity();
                 },
                 child: Column(
                   children: [
@@ -100,7 +100,7 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
                       margin: EdgeInsets.only(right: 8.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24.r),
-                        color: currentIndex == index
+                        color: cart.productSize == index
                             ? AppTheme.darkRedColor
                             : AppTheme.greyColor2B2B2B,
                       ),
@@ -115,7 +115,7 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
                     if (quantityAtCI <= 15) 10.vs,
                     if (int.parse(widget.productSizes![index].quantity!) <= 15)
                       Visibility(
-                        visible: currentIndex == index,
+                        visible: cart.productSize == index,
                         child: CustomText(
                           text: "${widget.productSizes![index].quantity} left",
                           color: AppTheme.redPrimaryColor,
@@ -144,29 +144,38 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
               width: 113.w,
               height: 30.h,
               child: Row(children: [
-                Container(
-                  width: 28.w,
-                  height: 28.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.r),
-                    color: Theme.of(context).dividerColor.withOpacity(0.6),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        initialQunaity = ++initialQunaity;
-                      });
-                    },
-                    child: Icon(
-                      CupertinoIcons.plus,
-                      size: 18.sp,
-                      color: Theme.of(context).primaryColor.withOpacity(0.6),
-                    ),
-                  ),
-                ),
+                cart.initalQuantity ==
+                        int.parse(
+                          widget.productSizes![cart.productSize].quantity
+                              .toString(),
+                        )
+                    ? SizedBox(width: 28.w)
+                    : Container(
+                        width: 28.w,
+                        height: 28.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.r),
+                          color:
+                              Theme.of(context).dividerColor.withOpacity(0.6),
+                        ),
+                        child: InkWell(
+                          onTap: () => cart.increaseInitalQuantity(
+                            int.parse(
+                              widget.productSizes![cart.productSize].quantity
+                                  .toString(),
+                            ),
+                          ),
+                          child: Icon(
+                            CupertinoIcons.plus,
+                            size: 18.sp,
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.6),
+                          ),
+                        ),
+                      ),
                 SizedBox(width: 14.w),
                 CustomTextInter(
-                  text: initialQunaity.toString(),
+                  text: cart.initalQuantity.toString(),
                   fontSize: 18.sp,
                   color: Theme.of(context).primaryColor.withOpacity(0.8),
                   fontWeight: FontWeight.w400,
@@ -180,13 +189,7 @@ class _ProductDetaileColumnState extends State<ProductDetaileColumn> {
                     color: Theme.of(context).dividerColor.withOpacity(0.6),
                   ),
                   child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        if (initialQunaity > 1) {
-                          initialQunaity = --initialQunaity;
-                        }
-                      });
-                    },
+                    onTap: () => cart.decreaseInitalQuantity(),
                     child: Icon(
                       CupertinoIcons.minus,
                       size: 18.sp,

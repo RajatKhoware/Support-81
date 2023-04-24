@@ -14,6 +14,8 @@ class CartServices {
     required BuildContext context,
     required double quantity,
     required double productId,
+    required double colorId,
+    required double size,
   }) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -23,6 +25,8 @@ class CartServices {
         body: jsonEncode({
           "productId": productId,
           "quantity": quantity,
+          "color": colorId,
+          "size": size,
         }),
         headers: {
           'Content-Type': 'application/json',

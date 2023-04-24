@@ -46,9 +46,9 @@ class _CartProductTileState extends State<CartProductTile> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartProvider>(context, listen: true).cart;
-    final cartProduct = cart.data![widget.index].addedProduct;
-    final cartList = cart.data![widget.index];
+    final cart = Provider.of<CartProvider>(context, listen: true);
+    final cartProduct = cart.cart.data![widget.index].addedProduct;
+    final cartList = cart.cart.data![widget.index];
     return Column(
       children: [
         Container(
@@ -68,7 +68,9 @@ class _CartProductTileState extends State<CartProductTile> {
                     color: Colors.white,
                   ),
                   child: Image.network(
-                    cartProduct!.images![0],
+                    cartProduct!.images!.isEmpty
+                        ? "https://cdn.shopify.com/s/files/1/0265/1435/8377/products/vans-old-skool-ideas-that-connect-custom-621721.jpg?v=1625258141&width=2048"
+                        : cartProduct.images!.first,
                     fit: BoxFit.cover,
                   ),
                 ),
