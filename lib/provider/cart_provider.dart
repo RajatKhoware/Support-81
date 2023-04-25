@@ -5,7 +5,8 @@ import '../features/Cart/services/cart_services.dart';
 
 class CartProvider extends ChangeNotifier {
   CartServices _cartServices = CartServices();
-  // bool isProductPresentInCart = false;
+
+// Setting cart from api data
   CartModel _cart = CartModel();
   CartModel get cart => _cart;
   void setCart(CartModel cart) {
@@ -13,6 +14,13 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+// RemoveProduct in my cart
+  void removeProduct(int index) {
+    _cart.data!.removeAt(index);
+    notifyListeners();
+  }
+
+// Setting the product size acc to user
   int _productSize = 0;
   int get productSize => _productSize;
   void setProductSize(int index) {
@@ -20,9 +28,9 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+// Setting the product quantity acc to user
   int _initalQuantity = 1;
   int get initalQuantity => _initalQuantity;
-
   void setInitalQuantity() {
     _initalQuantity = 1;
     notifyListeners();
@@ -41,6 +49,9 @@ class CartProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  //Update cart length
+  
 
   bool _isProductPresentInCart = false;
   bool get isProductPresentInCart => _isProductPresentInCart;

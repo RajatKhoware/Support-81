@@ -24,31 +24,25 @@ import 'package:support__81/router.dart';
 import 'features/Bookmark/services/bookmark_services.dart';
 import 'features/Cart/services/cart_services.dart';
 
-Future<void> backgroundHandler(RemoteMessage message) async {
-  print(message.data.toString());
-  print(message.notification!.title);
-}
+// Future<void> backgroundHandler(RemoteMessage message) async {
+//   print(message.data.toString());
+//   print(message.notification!.title);
+// }
 
 void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => UserProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => BookmarkedProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CartProvider(),
-        ),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => BookmarkedProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
       ],
       child: MyApp(),
     ),
   );
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  // FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 }
 
 class MyApp extends StatefulWidget {
@@ -67,7 +61,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     getCart();
     fetchBookmarkProducts();
-    LocalNotificationService.initialize(context);
+    // LocalNotificationService.initialize(context);
   }
 
   void getCart() {
@@ -85,7 +79,6 @@ class _MyAppState extends State<MyApp> {
     return ScreenUtilInit(
       designSize: const Size(393, 781),
       builder: (context, child) => MaterialApp(
-        //  builder: DevicePreview.appBuilder,
         title: 'Support 81',
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,

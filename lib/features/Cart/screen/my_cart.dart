@@ -2,6 +2,7 @@
 import 'package:support__81/common/app_list.dart';
 import 'package:support__81/common/button.dart';
 import 'package:support__81/constant/app_theme.dart';
+import 'package:support__81/extensions.dart';
 import 'package:support__81/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:support__81/common/customtext.dart';
@@ -22,7 +23,8 @@ class _MyCartState extends State<MyCart> {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: true);
-
+    
+    //Calculating sum 
     int sum = 0;
     cart.cart.data?.forEach((e) {
       final quantity = int.tryParse(e.quantity ?? '0');
@@ -30,18 +32,15 @@ class _MyCartState extends State<MyCart> {
       sum += (quantity! * price!);
     });
 
-    return ScreenUtilInit(
-        designSize: const Size(393, 781),
-        builder: (context, child) {
-          return Scaffold(
-            //? Appbar
+    return Scaffold(
+            // Appbar
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(55.h),
               child: CustomAppBar(
                 title: "My cart",
               ),
             ),
-            //? Cart Products
+            // Cart Products
             body: Padding(
               padding: EdgeInsets.all(10.w.h),
               child: Column(
@@ -90,7 +89,7 @@ class _MyCartState extends State<MyCart> {
                     child: Column(
                       children: [
                         //Promo-code Field
-                        SizedBox(height: 18.h),
+                       18.vs,
                         //Cart Total
                         if (cart.cart.data != null)
                           Row(
@@ -112,7 +111,7 @@ class _MyCartState extends State<MyCart> {
                               ),
                             ],
                           ),
-                        const SizedBox(height: 20),
+                        20.vs,
                         //Check-out Button
                         CustomButton(
                           width: double.infinity,
@@ -135,6 +134,6 @@ class _MyCartState extends State<MyCart> {
               ),
             ),
           );
-        });
+       
   }
 }

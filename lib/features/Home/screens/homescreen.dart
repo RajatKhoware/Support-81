@@ -31,87 +31,75 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getCart() {
     _cartServices.getCart(context);
-    // setState(() {});
   }
 
 //* FIREBASE NOTIFICATIONS
 // ----------------------------------------------------------------------------------------------------------------------------------
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    // 1. This method call when app in terminated state and you get a notification
-    // when you click on notification app open from terminated state and you can get notification data in this method
+  //   // 1. This method call when app in terminated state and you get a notification
+  //   // when you click on notification app open from terminated state and you can get notification data in this method
 
-    FirebaseMessaging.instance.getInitialMessage().then(
-      (message) {
-        print("FirebaseMessaging.instance.getInitialMessage");
-        if (message != null) {
-          print("New Notification");
-          // if (message.data['_id'] != null) {
-          //   Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => DemoScreen(
-          //         id: message.data['_id'],
-          //       ),
-          //     ),
-          //   );
-          // }
-        }
-      },
-    );
+  //   FirebaseMessaging.instance.getInitialMessage().then(
+  //     (message) {
+  //       print("FirebaseMessaging.instance.getInitialMessage");
+  //       if (message != null) {
+  //         print("New Notification");
+  //         // if (message.data['_id'] != null) {
+  //         //   Navigator.of(context).push(
+  //         //     MaterialPageRoute(
+  //         //       builder: (context) => DemoScreen(
+  //         //         id: message.data['_id'],
+  //         //       ),
+  //         //     ),
+  //         //   );
+  //         // }
+  //       }
+  //     },
+  //   );
 
-    // 2. This method only call when App in forground it mean app must be opened
-    FirebaseMessaging.onMessage.listen(
-      (message) {
-        print("FirebaseMessaging.onMessage.listen");
-        if (message.notification != null) {
-          print(message.notification!.title);
-          print(message.notification!.body);
-          print("message.data11 ${message.data}");
-          LocalNotificationService.createanddisplaynotification(message);
-        }
-      },
-    );
+  //   // 2. This method only call when App in forground it mean app must be opened
+  //   FirebaseMessaging.onMessage.listen(
+  //     (message) {
+  //       print("FirebaseMessaging.onMessage.listen");
+  //       if (message.notification != null) {
+  //         print(message.notification!.title);
+  //         print(message.notification!.body);
+  //         print("message.data11 ${message.data}");
+  //         LocalNotificationService.createanddisplaynotification(message);
+  //       }
+  //     },
+  //   );
 
-    // 3. This method only call when App in background and not terminated(not closed)
-    FirebaseMessaging.onMessageOpenedApp.listen(
-      (message) {
-        print("FirebaseMessaging.onMessageOpenedApp.listen");
-        if (message.notification != null) {
-          print(message.notification!.title);
-          print(message.notification!.body);
-          print("message.data22 ${message.data['_id']}");
-        }
-      },
-    );
-  }
+  //   // 3. This method only call when App in background and not terminated(not closed)
+  //   FirebaseMessaging.onMessageOpenedApp.listen(
+  //     (message) {
+  //       print("FirebaseMessaging.onMessageOpenedApp.listen");
+  //       if (message.notification != null) {
+  //         print(message.notification!.title);
+  //         print(message.notification!.body);
+  //         print("message.data22 ${message.data['_id']}");
+  //       }
+  //     },
+  //   );
+  // }
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 
-  Future<void> getDeviceTokenToSendNotification() async {
-    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-    final token = await _fcm.getToken();
-    deviceTokenToSendPushNotification = token.toString();
-    // print("Token Value for push Notification $deviceTokenToSendPushNotification");
-  }
+  // Future<void> getDeviceTokenToSendNotification() async {
+  //   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+  //   final token = await _fcm.getToken();
+  //   deviceTokenToSendPushNotification = token.toString();
+  //   // print("Token Value for push Notification $deviceTokenToSendPushNotification");
+  // }
 
   @override
   Widget build(BuildContext context) {
-    getDeviceTokenToSendNotification();
+    //getDeviceTokenToSendNotification();
     final cart = Provider.of<CartProvider>(context, listen: true).cart;
-    late final cartProductLeng;
-    // Checking if cart is null or not
-    if (cart.data == null) {
-      setState(() {
-        cartProductLeng = 0;
-      });
-    } else {
-      setState(() {
-        cartProductLeng = cart.cartProductCount;
-      });
-    }
 
     return Scaffold(
       // Drawer Icon + Serach Field
@@ -127,9 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icons.menu,
                 size: 28.sp,
               ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
+              onPressed: () => Scaffold.of(context).openDrawer(),
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             );
           },
@@ -150,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: badge.Badge(
               position: badge.BadgePosition.topEnd(end: 0.0),
               badgeContent: CustomTextPoppines(
-                text: cartProductLeng.toString(),
+                text: cart.data!.length.toString(),
                 fontSize: 10.sp,
               ),
               badgeStyle: badge.BadgeStyle(

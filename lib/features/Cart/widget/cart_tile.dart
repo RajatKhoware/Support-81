@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:support__81/common/customtext.dart';
+import 'package:support__81/common/snakebar.dart';
 import 'package:support__81/constant/app_theme.dart';
 import 'package:support__81/extensions.dart';
 import 'package:support__81/features/Cart/services/cart_services.dart';
@@ -36,17 +37,11 @@ class _CartProductTileState extends State<CartProductTile> {
       context: context,
       cartId: cartId,
     );
-    setState(() {});
-  }
-
-  void getCart() {
-    _cartServices.getCart(context);
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartProvider>(context, listen: true);
+    final cart = Provider.of<CartProvider>(context);
     final cartProduct = cart.cart.data![widget.index].addedProduct;
     final cartList = cart.cart.data![widget.index];
     return Column(
@@ -75,7 +70,7 @@ class _CartProductTileState extends State<CartProductTile> {
                   ),
                 ),
               ),
-              SizedBox(width: 20.w),
+              20.hs,
               //Detailes + Price + Qunatity
               Expanded(
                 flex: 1,
@@ -113,9 +108,8 @@ class _CartProductTileState extends State<CartProductTile> {
                                   .withOpacity(0.6),
                             ),
                             child: InkWell(
-                              onTap: () {
-                                increaseQuantity(cartList.cartId.toString());
-                              },
+                              onTap: () =>
+                                  increaseQuantity(cartList.cartId.toString()),
                               child: Icon(
                                 CupertinoIcons.plus,
                                 size: 18.sp,
@@ -125,7 +119,7 @@ class _CartProductTileState extends State<CartProductTile> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 14.w),
+                          14.hs,
                           CustomTextInter(
                             text: cartList.quantity.toString(),
                             fontSize: 18.sp,
@@ -133,7 +127,7 @@ class _CartProductTileState extends State<CartProductTile> {
                                 Theme.of(context).primaryColor.withOpacity(0.8),
                             fontWeight: FontWeight.w400,
                           ),
-                          SizedBox(width: 14.w),
+                          14.hs,
                           Container(
                             width: 28.w,
                             height: 28.h,
@@ -145,7 +139,10 @@ class _CartProductTileState extends State<CartProductTile> {
                             ),
                             child: InkWell(
                               onTap: () {
-                                setState(() {});
+                                showSnakeBar(
+                                  context,
+                                  "This feature is not working",
+                                );
                               },
                               child: Icon(
                                 CupertinoIcons.minus,
@@ -158,7 +155,6 @@ class _CartProductTileState extends State<CartProductTile> {
                           ),
                         ]),
                       )
-                      //QuantityIncDecButton(),
                     ],
                   ),
                 ),
@@ -167,10 +163,9 @@ class _CartProductTileState extends State<CartProductTile> {
               Column(
                 children: [
                   InkWell(
-                    onTap: () {
-                      removeFromCart(cartProduct.id.toString());
-                      getCart();
-                      setState(() {});
+                    onTap: () async {
+                      await removeFromCart(cartProduct.id.toString());
+                      cart.removeProduct(widget.index);
                     },
                     child: Icon(
                       CupertinoIcons.xmark_circle,
