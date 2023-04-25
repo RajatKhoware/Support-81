@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getCart() {
     _cartServices.getCart(context);
+    setState(() {});
   }
 
 //* FIREBASE NOTIFICATIONS
@@ -100,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     //getDeviceTokenToSendNotification();
     final cart = Provider.of<CartProvider>(context, listen: true).cart;
-
     return Scaffold(
       // Drawer Icon + Serach Field
       appBar: AppBar(
@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: badge.Badge(
               position: badge.BadgePosition.topEnd(end: 0.0),
               badgeContent: CustomTextPoppines(
-                text: cart.data!.length.toString(),
+                text: cart.data != null ? cart.data!.length.toString() : "0",
                 fontSize: 10.sp,
               ),
               badgeStyle: badge.BadgeStyle(
