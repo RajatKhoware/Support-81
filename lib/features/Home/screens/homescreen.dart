@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          15.hs,
+          15.hs
         ],
       ),
       body: Padding(
